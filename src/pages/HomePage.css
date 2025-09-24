@@ -1,0 +1,8 @@
+/* src/pages/HomePage.css */
+/* Este ficheiro pode ficar quase vazio, pois cada componente de secção
+   agora tem o seu próprio estilo, e não há mais a lógica de "cenas" fixas. */
+
+/* Apenas garantimos que não há margens estranhas entre as secções. */
+.animated-section {
+    /* Esta classe serve como um alvo para a animação GSAP */
+}

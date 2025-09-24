@@ -1,0 +1,31 @@
+/* src/components/AboutSection.css */
+.about-section-container {
+    padding: 120px 50px;
+    background-color: #1A1A1A; /* Fundo escuro e sóbrio */
+    color: #F4F4F4;
+    text-align: center;
+}
+.about-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.section-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #B99A6B; /* Cor de acento */
+    margin-bottom: 20px;
+    display: block;
+}
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+.about-content p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(244, 244, 244, 0.8);
+}

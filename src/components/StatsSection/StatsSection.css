@@ -1,0 +1,45 @@
+/* src/components/StatsSection/StatsSection.css */
+.stats-section {
+  padding: 80px 50px;
+  background-color: #ffffff;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* Permite que os itens quebrem a linha em ecrãs pequenos */
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-item h2 {
+  font-size: 50px;
+  font-weight: 700;
+  color: #0055A4; /* Cor de destaque */
+}
+
+.stat-item .plus-sign {
+  color: #0055A4;
+  vertical-align: super;
+  font-size: 24px;
+  margin-left: 5px;
+}
+
+.stat-item p {
+  font-size: 18px;
+  color: #1c2a39;
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .stats-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+}

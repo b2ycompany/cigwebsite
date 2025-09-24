@@ -1,0 +1,13 @@
+/* src/components/Footer.css */
+.footer {
+  /* MUDANÇA: Fundo cinza claro */
+  background-color: #f8f9fa;
+  color: #6c757d; /* Cor do texto mais suave */
+  padding: 2rem 0;
+  text-align: center;
+  border-top: 1px solid #e7e7e7;
+}
+.footer-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}

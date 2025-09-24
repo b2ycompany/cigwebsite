@@ -1,0 +1,26 @@
+/* src/components/Pagination/Pagination.css */
+.pagination {
+  position: fixed;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+.pagination ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 20px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.dot.active {
+  background-color: #B99A6B; /* Cor de acento */
+  transform: scale(1.5);
+}
