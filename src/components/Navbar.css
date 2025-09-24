@@ -1,17 +1,29 @@
 /* src/components/Navbar.css */
 .navbar {
-  /* ESTADO INICIAL: Transparente e por cima de tudo */
+  /* ESTADO INICIAL: Transparente sobre o Hero */
   background: transparent; 
-  height: 100px; /* Mais altura para um look premium */
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  position: fixed; /* MUDANÇA: Fixo para estar sempre visível */
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease; /* Transição suave de cor */
+}
+
+/* ESTADO ATIVO (APÓS SCROLL): Fundo escuro translúcido */
+.navbar.navbar--scrolled {
+  background-color: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+/* NOVO TEMA CLARO: Fundo claro com texto escuro */
+.navbar.navbar--light-theme {
+  background-color: rgba(244, 244, 244, 0.7); /* Cor de fundo da secção clara */
+  backdrop-filter: blur(10px);
 }
 
 .navbar-container {
@@ -24,8 +36,19 @@
   padding: 0 50px;
 }
 
-.navbar-logo {
+/* Por defeito, o texto é branco (para fundos escuros) */
+.navbar-logo, .nav-links {
   color: #fff;
+  transition: color 0.5s ease;
+}
+
+/* No tema claro, o texto fica escuro */
+.navbar.navbar--light-theme .navbar-logo,
+.navbar.navbar--light-theme .nav-links {
+  color: #1A1A1A;
+}
+
+.navbar-logo {
   cursor: pointer;
   text-decoration: none;
   font-size: 2.5rem;
@@ -36,7 +59,6 @@
 .nav-menu { list-style: none; display: flex; align-items: center; }
 .nav-item { height: 100%; }
 .nav-links {
-  color: #fff;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -46,7 +68,7 @@
   font-weight: 400;
   position: relative;
 }
-/* Efeito de sublinhado no hover */
+
 .nav-links::after {
   content: '';
   position: absolute;
@@ -56,8 +78,14 @@
   height: 2px;
   background-color: #B99A6B;
   transform: scaleX(0);
+  transform-origin: center;
   transition: transform 0.3s ease-out;
 }
 .nav-links:hover::after {
   transform: scaleX(1);
+}
+
+/* No tema claro, o sublinhado do hover também precisa de contraste */
+.navbar.navbar--light-theme .nav-links:hover::after {
+    background-color: #1A1A1A;
 }

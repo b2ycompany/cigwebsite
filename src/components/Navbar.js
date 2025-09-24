@@ -11,26 +11,29 @@ const Navbar = () => {
     const navbarRef = useRef(null);
 
     useLayoutEffect(() => {
-        // Animação para mudar o fundo da navbar ao rolar
-        const showNav = gsap.fromTo(navbarRef.current, {
-            backgroundColor: 'transparent'
-        }, {
-            backgroundColor: 'rgba(10, 10, 10, 0.7)',
-            backdropFilter: 'blur(10px)',
-            duration: 0.5,
-            ease: 'none'
-        }).pause(); // Pausamos a animação para que o ScrollTrigger a controle
+        const navEl = navbarRef.current;
 
+        // Animação base: torna a navbar sólida após sair do Hero
         ScrollTrigger.create({
-            trigger: 'body',
-            start: 'top -100', // Quando o scroll passar de 100px
+            start: 'top -80',
             end: 99999,
-            onUpdate: self => {
-                self.direction === -1 ? showNav.reverse() : showNav.play(); // Mostra ao descer, esconde ao subir (efeito moderno)
-            },
-            onEnter: () => showNav.play(),
-            onLeaveBack: () => showNav.reverse()
+            toggleClass: { className: 'navbar--scrolled', targets: navEl }
         });
+
+        // Lógica para o tema claro
+        const lightSections = gsap.utils.toArray('[data-theme="light"]');
+        
+        lightSections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top 80px", // Quando o topo da secção atinge o fundo da navbar
+                end: "bottom 80px", // Quando o fundo da secção atinge o fundo da navbar
+                toggleClass: { className: 'navbar--light-theme', targets: navEl }
+            });
+        });
+
+        console.log('Navbar adaptativa inicializada.');
+
     }, []);
 
     return (

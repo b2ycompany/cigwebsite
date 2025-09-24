@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroScene from '../components/scenes/HeroScene';
 import AboutSection from '../components/AboutSection/AboutSection';
 import ProjectsCarousel from '../components/ProjectsCarousel/ProjectsCarousel';
-import StatsScene from '../components/scenes/StatsScene'; // Secção de estatísticas reintroduzida
+import StatsScene from '../components/scenes/StatsScene';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +15,6 @@ const HomePage = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Animação genérica para "montar" cada secção ao aparecer
       const sections = gsap.utils.toArray('.animated-section');
       sections.forEach(section => {
         gsap.from(section, {
@@ -39,19 +38,20 @@ const HomePage = () => {
     <div ref={mainRef}>
       <HeroScene />
       
+      {/* Secções escuras não precisam de marcação */}
       <div className="animated-section">
         <AboutSection />
       </div>
 
-      <div className="animated-section">
+      {/* MARCAÇÃO: Adicionamos o atributo data-theme="light" às secções claras */}
+      <div className="animated-section" data-theme="light">
         <ProjectsCarousel />
       </div>
 
-      <div className="animated-section">
+      <div className="animated-section" data-theme="light">
         <StatsScene />
       </div>
     </div>
   );
 };
-
 export default HomePage;
