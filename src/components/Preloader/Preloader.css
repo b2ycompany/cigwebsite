@@ -15,17 +15,17 @@
 .preloader-content {
     position: relative; z-index: 2; text-align: center; color: #FFF;
 }
-.preloader-logo {
-    font-size: 8vw; font-weight: 800; font-family: 'Cormorant Garamond', serif;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+
+/* ESTILO PARA O LOGÓTIPO EM IMAGEM */
+.preloader-logo-image img {
+    width: 30vw; /* Largura relativa à janela */
+    max-width: 400px; /* Largura máxima */
+    height: auto;
 }
-.preloader-fullname {
-    font-family: 'Poppins', sans-serif; font-size: 1.2vw; font-weight: 300;
-    letter-spacing: 5px; text-transform: uppercase; margin-top: 10px; opacity: 0.8;
-}
+
 .preloader-status {
     position: absolute;
-    bottom: -15vh; /* Posiciona abaixo do logo */
+    bottom: -15vh;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -43,6 +43,7 @@
     font-weight: 700;
 }
 @media (max-width: 768px) {
-    .preloader-logo { font-size: 15vw; }
-    .preloader-fullname { font-size: 2.5vw; letter-spacing: 3px; }
+    .preloader-logo-image img {
+        width: 60vw;
+    }
 }

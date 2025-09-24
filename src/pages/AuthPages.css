@@ -1,0 +1,57 @@
+/* src/pages/AuthPages.css */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 100px 20px;
+    background-color: #030712;
+}
+.auth-form {
+    background-color: #1A1A1A;
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(185, 154, 107, 0.2);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+.auth-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.auth-form p {
+    color: #d1d5db;
+    margin-bottom: 30px;
+}
+.auth-form input {
+    width: 100%;
+    padding: 12px 15px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+.auth-button {
+    width: 100%;
+    padding: 12px;
+    background: #B99A6B;
+    color: #1A1A1A;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+.auth-error {
+    color: #ef4444;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}

@@ -11,7 +11,6 @@ const ContactFooter = () => {
                     <h3 className="footer-logo">CIG</h3>
                     <p>Construction Investment Group</p>
                     <div className="social-icons">
-                        {/* CORREÇÃO: Substituímos href="#" por links reais. Altere para os seus perfis. */}
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
                         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebook /></a>
@@ -38,9 +37,10 @@ const ContactFooter = () => {
                     </form>
                 </div>
             </div>
+            {/* A SECÇÃO DO MAPA RESTAURADA */}
             <div className="footer-map">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.145520117093!2d-46.65684698554261!3d-23.56302826754385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5994f2e15aed%3A0x8054b04169c9b313!2sAv.%20Paulista%2C%20171%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001311-000!5e0!3m2!1spt-BR!2sbr!4v1678886450123!5m2!1spt-BR!2sbr" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1455201659563!2d-46.6565345844063!3d-23.56291916751287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0x2025d5e1a72d794e!2sAv.%20Paulista%2C%20171%20-%20Bela%20Vista%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2001311-000!5e0!3m2!1spt-BR!2sbr!4v1678886512345!5m2!1spt-BR!2sbr" 
                     width="100%" height="300" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Localização CIG">
                 </iframe>
             </div>

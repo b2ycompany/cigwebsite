@@ -1,6 +1,6 @@
 /* src/components/Navbar.css */
+
 .navbar {
-  /* ESTADO INICIAL: Transparente sobre o Hero */
   background: transparent; 
   height: 100px;
   display: flex;
@@ -11,18 +11,16 @@
   top: 0;
   width: 100%;
   z-index: 1000;
-  transition: background-color 0.5s ease; /* Transição suave de cor */
+  transition: background-color 0.5s ease;
 }
 
-/* ESTADO ATIVO (APÓS SCROLL): Fundo escuro translúcido */
 .navbar.navbar--scrolled {
-  background-color: rgba(10, 10, 10, 0.7);
+  background-color: rgba(3, 7, 18, 0.8);
   backdrop-filter: blur(10px);
 }
 
-/* NOVO TEMA CLARO: Fundo claro com texto escuro */
 .navbar.navbar--light-theme {
-  background-color: rgba(244, 244, 244, 0.7); /* Cor de fundo da secção clara */
+  background-color: rgba(244, 244, 244, 0.7);
   backdrop-filter: blur(10px);
 }
 
@@ -36,29 +34,34 @@
   padding: 0 50px;
 }
 
-/* Por defeito, o texto é branco (para fundos escuros) */
-.navbar-logo, .nav-links {
-  color: #fff;
-  transition: color 0.5s ease;
-}
-
-/* No tema claro, o texto fica escuro */
-.navbar.navbar--light-theme .navbar-logo,
-.navbar.navbar--light-theme .nav-links {
-  color: #1A1A1A;
-}
-
+/* ESTILO PARA O LOGÓTIPO EM IMAGEM */
 .navbar-logo {
   cursor: pointer;
   text-decoration: none;
-  font-size: 2.5rem;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.navbar-logo img {
+  height: 45px; /* Altura da imagem do logo */
+  width: auto;
+  transition: filter 0.5s ease;
+}
+/* Inverte a cor do logo (de branco para preto) quando o tema claro está ativo */
+.navbar.navbar--light-theme .navbar-logo img {
+  filter: invert(1);
 }
 
-.nav-menu { list-style: none; display: flex; align-items: center; }
-.nav-item { height: 100%; }
+/* O resto dos estilos permanece o mesmo */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+.nav-item {
+  height: 100%;
+}
 .nav-links {
+  color: #fff;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -67,8 +70,11 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   position: relative;
+  transition: color 0.5s ease;
 }
-
+.navbar.navbar--light-theme .nav-links {
+  color: #1A1A1A;
+}
 .nav-links::after {
   content: '';
   position: absolute;
@@ -78,14 +84,28 @@
   height: 2px;
   background-color: #B99A6B;
   transform: scaleX(0);
-  transform-origin: center;
   transition: transform 0.3s ease-out;
+  transform-origin: center;
 }
 .nav-links:hover::after {
   transform: scaleX(1);
 }
-
-/* No tema claro, o sublinhado do hover também precisa de contraste */
 .navbar.navbar--light-theme .nav-links:hover::after {
     background-color: #1A1A1A;
+}
+.nav-link-button {
+    background-color: #B99A6B;
+    color: #1A1A1A !important;
+    padding: 8px 20px !important;
+    border-radius: 5px;
+    font-weight: 700 !important;
+    margin-left: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.nav-link-button:hover {
+    background-color: #fff;
+    color: #1A1A1A !important;
+}
+.nav-link-button::after {
+    display: none;
 }

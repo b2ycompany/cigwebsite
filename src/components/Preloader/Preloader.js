@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 import './Preloader.css';
 import splashVideo from '../../assets/splash-video.mp4';
 
+// Importamos a imagem do logótipo também aqui
+import logoImage from '../../assets/logo.webp';
+
 const loadingPhases = [
     { start: 0, text: "Analisando Oportunidades..." },
     { start: 30, text: "Estruturando Investimento..." },
@@ -26,11 +29,11 @@ const Preloader = ({ onLoaded }) => {
                     return newCounter;
                 } else {
                     clearInterval(interval);
-                    setTimeout(onLoaded, 750); // Tempo extra para o utilizador ler "Construindo Valor..."
+                    setTimeout(onLoaded, 750);
                     return 100;
                 }
             });
-        }, 30); // Aumentei um pouco a velocidade para compensar o tempo de leitura
+        }, 30);
 
         return () => clearInterval(interval);
     }, [onLoaded]);
@@ -43,22 +46,16 @@ const Preloader = ({ onLoaded }) => {
             <video src={splashVideo} autoPlay loop muted playsInline className="preloader-video-bg" />
             <div className="preloader-overlay" />
             <div className="preloader-content">
+                {/* O logo em texto foi substituído pela imagem */}
                 <motion.div
-                    className="preloader-logo"
+                    className="preloader-logo-image"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
+                    transition={{ duration: 1.5, delay: 0.5 }}
                 >
-                    CIG
+                    <img src={logoImage} alt="Logótipo da CIG" />
                 </motion.div>
-                <motion.div
-                    className="preloader-fullname"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.8 }}
-                >
-                    CONSTRUCTION INVESTMENT GROUP
-                </motion.div>
+
                 <div className="preloader-status">
                     <span className="status-text">{loadingText}</span>
                     <span className="status-counter">{counter}%</span>
