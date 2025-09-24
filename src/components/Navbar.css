@@ -1,5 +1,6 @@
 /* src/components/Navbar.css */
 
+/* --- ESTILOS GERAIS (DESKTOP) --- */
 .navbar {
   background: transparent; 
   height: 100px;
@@ -13,17 +14,14 @@
   z-index: 1000;
   transition: background-color 0.5s ease;
 }
-
 .navbar.navbar--scrolled {
   background-color: rgba(3, 7, 18, 0.8);
   backdrop-filter: blur(10px);
 }
-
 .navbar.navbar--light-theme {
   background-color: rgba(244, 244, 244, 0.7);
   backdrop-filter: blur(10px);
 }
-
 .navbar-container {
   display: flex;
   justify-content: space-between;
@@ -33,8 +31,6 @@
   max-width: 1600px;
   padding: 0 50px;
 }
-
-/* ESTILO PARA O LOGÓTIPO EM IMAGEM */
 .navbar-logo {
   cursor: pointer;
   text-decoration: none;
@@ -42,23 +38,23 @@
   align-items: center;
 }
 .navbar-logo img {
-  height: 45px; /* Altura da imagem do logo */
+  height: 45px;
   width: auto;
   transition: filter 0.5s ease;
 }
-/* Inverte a cor do logo (de branco para preto) quando o tema claro está ativo */
 .navbar.navbar--light-theme .navbar-logo img {
   filter: invert(1);
 }
-
-/* O resto dos estilos permanece o mesmo */
 .nav-menu {
   list-style: none;
   display: flex;
   align-items: center;
+  text-align: center;
 }
 .nav-item {
   height: 100%;
+  display: flex;
+  align-items: center;
 }
 .nav-links {
   color: #fff;
@@ -76,36 +72,86 @@
   color: #1A1A1A;
 }
 .nav-links::after {
-  content: '';
-  position: absolute;
-  bottom: 30px;
-  left: 1.5rem;
-  right: 1.5rem;
-  height: 2px;
-  background-color: #B99A6B;
-  transform: scaleX(0);
-  transition: transform 0.3s ease-out;
-  transform-origin: center;
+  content: ''; position: absolute; bottom: 30px; left: 1.5rem;
+  right: 1.5rem; height: 2px; background-color: #B99A6B;
+  transform: scaleX(0); transition: transform 0.3s ease-out; transform-origin: center;
 }
-.nav-links:hover::after {
-  transform: scaleX(1);
-}
-.navbar.navbar--light-theme .nav-links:hover::after {
-    background-color: #1A1A1A;
-}
+.nav-links:hover::after { transform: scaleX(1); }
+.navbar.navbar--light-theme .nav-links:hover::after { background-color: #1A1A1A; }
 .nav-link-button {
-    background-color: #B99A6B;
-    color: #1A1A1A !important;
-    padding: 8px 20px !important;
-    border-radius: 5px;
-    font-weight: 700 !important;
-    margin-left: 1rem;
+    background-color: #B99A6B; color: #1A1A1A !important; padding: 8px 20px !important;
+    border-radius: 5px; font-weight: 700 !important; margin-left: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
-.nav-link-button:hover {
-    background-color: #fff;
-    color: #1A1A1A !important;
+.nav-link-button:hover { background-color: #fff; color: #1A1A1A !important; }
+.nav-link-button::after { display: none; }
+
+/* O ícone do menu é escondido no desktop */
+.menu-icon {
+  display: none;
 }
-.nav-link-button::after {
-    display: none;
+.nav-item-mobile-button {
+    display: flex; /* Mantém o botão visível no desktop */
+}
+
+
+/* --- ESTILOS RESPONSIVOS (MOBILE) --- */
+@media screen and (max-width: 960px) {
+  .nav-menu {
+    display: flex;
+    flex-direction: column; /* Itens ficam em coluna */
+    width: 100%;
+    height: 100vh; /* Ocupa a tela inteira */
+    position: fixed;
+    top: 0;
+    left: -100%; /* Começa fora da tela */
+    opacity: 1;
+    transition: all 0.5s ease;
+    background: #1A1A1A; /* Fundo escuro para o menu móvel */
+    padding-top: 100px; /* Espaço para a navbar fixa */
+  }
+  .nav-menu.active {
+    left: 0; /* Traz o menu para a tela */
+    opacity: 1;
+  }
+  .nav-links {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+    color: #fff; /* Garante que o texto seja branco no menu móvel */
+  }
+  .nav-links:hover {
+    color: #B99A6B;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+  .nav-links::after {
+    display: none; /* Remove o sublinhado no móvel */
+  }
+  .nav-item {
+    width: 100%;
+    height: auto;
+  }
+  .menu-icon {
+    display: block; /* Mostra o ícone do menu */
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #fff; /* Ícone branco por defeito */
+  }
+  .navbar.navbar--light-theme .menu-icon {
+    color: #1A1A1A; /* Ícone escuro quando o tema é claro */
+  }
+  .nav-link-button {
+    display: block;
+    text-align: center;
+    padding: 1rem 1.5rem !important;
+    width: 80%;
+    margin: 2rem auto;
+    box-sizing: border-box;
+  }
 }
