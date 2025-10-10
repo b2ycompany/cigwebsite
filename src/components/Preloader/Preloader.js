@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import './Preloader.css';
 import splashVideo from '../../assets/splash-video.mp4';
 
-// Caminho e extensão corrigidos
-import logoImage from '../../assets/logo.png';
+// ATUALIZADO: Importar o novo logótipo transparente
+import logoImage from '../../assets/lion-broker-logo-transparent.png'; 
 
 const loadingPhases = [
     { start: 0, text: "Analisando Oportunidades..." },
@@ -53,7 +53,7 @@ const Preloader = ({ onLoaded }) => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1.5, delay: 0.5 }}
                 >
-                    <img src={logoImage} alt="Logótipo da CIG" />
+                    <img src={logoImage} alt="Logótipo da Lion Broker" />
                 </motion.div>
 
                 <div className="preloader-status">

@@ -1,8 +1,227 @@
 /* src/pages/HomePage.css */
-/* Este ficheiro pode ficar quase vazio, pois cada componente de secção
-   agora tem o seu próprio estilo, e não há mais a lógica de "cenas" fixas. */
 
-/* Apenas garantimos que não há margens estranhas entre as secções. */
-.animated-section {
-    /* Esta classe serve como um alvo para a animação GSAP */
+.homepage-container {
+    background-color: var(--dark-background);
+    color: var(--light-text);
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh; /* Ocupa a altura total da tela */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--secondary-color);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito parallax */
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+    padding: 0 20px; /* Padding para evitar conteúdo colado nas bordas */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Overlay escuro para melhorar a legibilidade do texto */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.hero-logo {
+    width: 250px; /* Tamanho ajustável do logótipo */
+    height: auto;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 10px rgba(185, 154, 107, 0.5)); /* Sutil sombra dourada */
+}
+
+.hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    color: var(--primary-color);
+}
+
+.hero-tagline {
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap; /* Para responsividade */
+}
+
+.btn {
+    padding: 15px 35px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 2px solid transparent; /* Base para o hover */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--dark-background);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: var(--dark-background);
+    border-color: var(--secondary-color);
+}
+
+/* Secção Sobre Nós */
+.about-us-section {
+    text-align: center;
+    background-color: var(--dark-background);
+}
+
+.about-us-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.about-us-section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    line-height: 1.8;
+    color: var(--light-text);
+}
+
+/* Secção Nossos Valores/Diferenciais */
+.values-section {
+    text-align: center;
+    background-color: var(--secondary-color); /* Fundo mais claro para contraste */
+    color: var(--dark-text); /* Texto escuro para fundo claro */
+}
+
+.values-section h2 {
+    color: var(--dark-text);
+    margin-bottom: 40px;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.value-item {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.value-item:hover {
+    transform: translateY(-10px);
+}
+
+.value-icon {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.value-item h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    margin-bottom: 15px;
+}
+
+.value-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+}
+
+/* Secção Chamada para Ação (CTA) */
+.cta-section {
+    text-align: center;
+    background-color: #1A1A1A; /* Fundo escuro diferente para CTA */
+    padding: 80px 50px;
+    border-top: 5px solid var(--primary-color);
+}
+
+.cta-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 3rem;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    color: var(--light-text);
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 1024px) {
+    .hero-content h1 { font-size: 3.5rem; }
+    .hero-tagline { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: auto;
+        min-height: 80vh;
+        padding: 120px 20px 60px; /* Ajuste para navbar e footer */
+    }
+    .hero-content h1 { font-size: 2.8rem; }
+    .hero-tagline { font-size: 1rem; }
+    .hero-logo { width: 200px; }
+    .hero-actions { flex-direction: column; }
+    .btn { width: 100%; max-width: 300px; }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-section h2 { font-size: 2.5rem; }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-logo { width: 150px; }
+    .section-padding { padding: 40px 15px; }
+    .cta-section h2 { font-size: 2rem; }
 }

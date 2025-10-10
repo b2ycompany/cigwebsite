@@ -7,10 +7,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
-// CAMINHOS CORRIGIDOS AQUI (../ em vez de ../../)
 import { useAuth } from '../hooks/useAuth';
 import { signOutUser } from '../firebaseAuth';
-import logoImage from '../assets/logo.png';
+// ATUALIZADO: Importar o novo logótipo transparente
+import logoImage from '../assets/lion-broker-logo-transparent.png'; 
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,7 +74,7 @@ const Navbar = () => {
         <nav className={navbarClasses} ref={navbarRef}>
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                    <img src={logoImage} alt="Logótipo da Construction Investment Group" />
+                    <img src={logoImage} alt="Logótipo da Lion Broker Investment" />
                 </Link>
 
                 <button className="menu-icon" onClick={toggleMenu} aria-label="Menu">
