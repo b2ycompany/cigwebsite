@@ -1,19 +1,10 @@
-/* src/pages/AffiliateDashboard.css */
+/* src/pages/AdminDashboard.css */
 
-.affiliate-dashboard-container {
+.dashboard-container {
     padding: 120px 50px 50px;
     background-color: #030712;
     min-height: 100vh;
     color: #f4f4f4;
-}
-
-.dashboard-loading {
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    color: #f4f4f4;
-    font-family: 'Poppins', sans-serif;
 }
 
 .dashboard-header {
@@ -26,148 +17,180 @@
     font-size: 3rem;
 }
 
-.dashboard-header p {
-    font-size: 1.2rem;
-    color: #d1d5db;
-    margin-top: 10px;
-}
-
 .dashboard-content {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- Indicadores (KPIs) --- */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 50px;
+.main-tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+    margin-bottom: 40px;
 }
 
-.kpi-card {
+.main-tabs button {
+    padding: 15px 30px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-tabs button.active {
+    color: #B99A6B;
+    border-bottom: 2px solid #B99A6B;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.filter-tabs button {
+    padding: 10px 20px;
+    border: 1px solid #B99A6B;
+    background: transparent;
+    color: #B99A6B;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-tabs button:hover,
+.filter-tabs button.active {
+    background: #B99A6B;
+    color: #1A1A1A;
+}
+
+.affiliate-list {
+    display: grid;
+    gap: 20px;
+}
+
+.affiliate-card {
     background: #1A1A1A;
-    padding: 25px;
+    padding: 20px;
     border-radius: 8px;
     border-left: 5px solid #B99A6B;
-    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.kpi-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    color: #aaa;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    font-weight: 500;
+.affiliate-card:hover {
+    background: #2a2a2a;
 }
 
-.kpi-card span {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.kpi-icon {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2.5rem;
-    color: rgba(185, 154, 107, 0.15);
-}
-
-/* --- Mensagens de Status --- */
-.status-message {
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 8px;
-    max-width: 800px;
-    text-align: center;
-}
-
-.status-message h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.status-pending {
-    background-color: #372c1a;
-    border: 1px solid #B99A6B;
-}
-
-.status-rejected {
-    background-color: #3c1b1b;
-    border: 1px solid #dc2626;
-}
-
-/* --- Grelha de Campanhas --- */
-.campaigns-grid {
-    margin-top: 40px;
-}
-
-.campaigns-grid h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 15px;
-}
-
-.aff-campaign-card {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 30px;
-    background: #1A1A1A;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
+.card-header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    border: 1px solid #2a2a2a;
+    margin-bottom: 15px;
 }
 
-.aff-campaign-card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
+.card-header h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
 }
 
-.aff-campaign-info {
-    padding: 20px;
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-.aff-campaign-info h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    color: #B99A6B;
-}
+.status-pending { background-color: #ca8a04; color: #fff; }
+.status-approved { background-color: #16a34a; color: #fff; }
+.status-rejected { background-color: #dc2626; color: #fff; }
 
-.aff-campaign-info p {
+.card-body p {
     color: #d1d5db;
-    margin-top: 10px;
     line-height: 1.6;
 }
 
-.campaign-numbers {
+.card-actions {
     margin-top: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    font-size: 0.9rem;
+    gap: 10px;
 }
 
-.campaign-numbers span {
-    background: #030712;
-    padding: 8px 12px;
+.btn {
+    padding: 8px 15px;
+    border: none;
     border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-approve { background: #16a34a; color: white; }
+.btn-reject { background: #dc2626; color: white; }
+
+.empty-state {
+    color: #aaa;
+    text-align: center;
+    padding: 40px;
+    border: 2px dashed #333;
+    border-radius: 8px;
+}
+
+/* Modal de Detalhes do Afiliado */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+}
+.modal-content {
+    background: #1A1A1A; padding: 40px; border-radius: 10px;
+    width: 90%; max-width: 600px; position: relative;
     border: 1px solid #333;
 }
-
-@media (max-width: 768px) {
-    .aff-campaign-card {
-        grid-template-columns: 1fr;
-    }
-    .aff-campaign-card img {
-        height: 250px;
-    }
+.modal-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 20px; }
+.modal-content p { margin-bottom: 10px; color: #d1d5db; }
+.modal-content p strong { color: #f4f4f4; }
+.modal-content a.link-document { color: #B99A6B; display: inline-block; margin-top: 10px; }
+.close-modal {
+    position: absolute; top: 15px; right: 20px; background: none;
+    border: none; color: white; font-size: 2rem; cursor: pointer;
 }
+
+/* Estilos para Gestão de Campanhas */
+.btn-new-campaign {
+    background: #B99A6B; color: #1A1A1A; padding: 15px 30px;
+    border: none; border-radius: 5px; font-weight: bold;
+    cursor: pointer; font-size: 1.1rem; margin-bottom: 40px;
+}
+.campaign-manager { display: grid; grid-template-columns: 1fr; gap: 40px; } /* Alterado para 1 coluna */
+.campaign-form-container {
+    background: #1A1A1A; padding: 30px; border-radius: 8px;
+}
+.campaign-form-container h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 20px; }
+.campaign-form-container input, .campaign-form-container textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #2a2a2a; border: 1px solid #444; border-radius: 5px; color: white; font-family: 'Poppins', sans-serif; }
+.campaign-form-container textarea { min-height: 120px; }
+.campaign-form-container label { display: block; margin-bottom: 5px; color: #aaa; }
+.campaign-form-container button { width: 100%; padding: 12px; background: #B99A6B; color: #1A1A1A; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+.campaign-form-container button:disabled { background: #555; cursor: not-allowed; }
+.campaign-form-container .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+.campaign-form-container .form-actions button { width: auto; flex: 1; }
+.campaign-form-container .form-actions button[type="button"] { background: #555; color: white; }
+
+.campaign-list-container { margin-top: 20px; } /* Espaçamento */
+.campaign-list-container h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 20px; }
+.campaign-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.campaign-card-admin { background: #1A1A1A; border-radius: 8px; overflow: hidden; position: relative; }
+.campaign-card-admin:hover .campaign-card-actions { opacity: 1; }
+.campaign-card-admin img { width: 100%; height: 150px; object-fit: cover; }
+.campaign-card-admin .campaign-card-info { padding: 15px; }
+.campaign-card-info h4 { font-size: 1rem; margin-bottom: 5px; }
+.campaign-card-info span { font-size: 0.8rem; color: #aaa; }
+.campaign-card-actions {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); display: flex; justify-content: center;
+    align-items: center; gap: 15px; opacity: 0; transition: opacity 0.3s ease;
+}
+.campaign-card-actions button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; }

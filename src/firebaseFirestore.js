@@ -1,7 +1,7 @@
 // src/firebaseFirestore.js
 
-import { collection, getDocs, doc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, getDocs, doc, updateDoc, addDoc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db } from './firebaseConfig';
 
 const storage = getStorage();
@@ -35,7 +35,7 @@ export const updateUserStatus = async (userId, newStatus) => {
 export const updateUserProfile = async (userId, data) => {
     const userDoc = doc(db, 'users', userId);
     try {
-        await updateDoc(userDoc, data, { merge: true }); // Usamos merge para não sobrescrever dados existentes
+        await updateDoc(userDoc, data, { merge: true });
         console.log(`Perfil do utilizador ${userId} atualizado.`);
         return { success: true };
     } catch (error) {
@@ -51,9 +51,7 @@ export const uploadUserDocument = async (userId, file) => {
     try {
         await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(storageRef);
-
         await updateUserProfile(userId, { documentUrl: downloadURL });
-
         console.log(`Documento do utilizador ${userId} enviado com sucesso.`);
         return { success: true, url: downloadURL };
     } catch (error) {
@@ -97,5 +95,35 @@ export const getCampaigns = async () => {
     } catch (error) {
         console.error("Erro ao buscar campanhas:", error);
         return [];
+    }
+};
+
+export const updateCampaign = async (campaignId, campaignData) => {
+    const campaignDoc = doc(db, 'campaigns', campaignId);
+    try {
+        await updateDoc(campaignDoc, campaignData);
+        console.log(`Campanha ${campaignId} atualizada.`);
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao atualizar campanha:", error);
+        return { success: false, error };
+    }
+};
+
+export const deleteCampaign = async (campaignId, imageUrl) => {
+    const campaignDoc = doc(db, 'campaigns', campaignId);
+    try {
+        await deleteDoc(campaignDoc);
+        console.log(`Campanha ${campaignId} apagada do Firestore.`);
+        
+        if (imageUrl) {
+            const imageRef = ref(storage, imageUrl);
+            await deleteObject(imageRef);
+            console.log(`Imagem da campanha ${campaignId} apagada do Storage.`);
+        }
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao apagar campanha:", error);
+        return { success: false, error };
     }
 };

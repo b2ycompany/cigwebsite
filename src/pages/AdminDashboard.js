@@ -1,6 +1,6 @@
 // src/pages/AdminDashboard.js
 import React, { useState, useEffect, useCallback } from 'react';
-import { getAllUsers, updateUserStatus, createCampaign, getCampaigns } from '../firebaseFirestore';
+import { getAllUsers, updateUserStatus, createCampaign, getCampaigns, updateCampaign, deleteCampaign } from '../firebaseFirestore';
 import './AdminDashboard.css';
 
 const AffiliateManager = () => {
@@ -72,60 +72,128 @@ const AffiliateManager = () => {
     );
 };
 
-const CampaignManager = () => {
-    const [formData, setFormData] = useState({ title: '', description: '', totalValue: '', quotaValue: '', availableQuotas: '' });
+const CampaignForm = ({ initialData, onSave, onCancel }) => {
+    const [formData, setFormData] = useState(initialData || { title: '', description: '', totalValue: '', quotaValue: '', availableQuotas: '' });
     const [image, setImage] = useState(null);
-    const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(false);
+    const isEditing = !!initialData;
+
+    useEffect(() => {
+        if (initialData) {
+            setFormData(initialData);
+        }
+    }, [initialData]);
+
+    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        if (isEditing) {
+            const { id, ...dataToUpdate } = formData;
+            await updateCampaign(id, dataToUpdate);
+        } else {
+            if (!image) {
+                alert("Por favor, selecione uma imagem.");
+                setLoading(false);
+                return;
+            }
+            await createCampaign(formData, image);
+        }
+        setLoading(false);
+        onSave();
+    };
+
+    return (
+        <form className="campaign-form-container modal-content" onSubmit={handleSubmit}>
+            <h3>{isEditing ? 'Editar Campanha' : 'Criar Nova Campanha'}</h3>
+            <input type="text" name="title" placeholder="Título" value={formData.title} onChange={handleChange} required />
+            <textarea name="description" placeholder="Descrição" value={formData.description} onChange={handleChange} required />
+            <input type="number" name="totalValue" placeholder="Valor Total (R$)" value={formData.totalValue} onChange={handleChange} required />
+            <input type="number" name="quotaValue" placeholder="Valor da Cota (R$)" value={formData.quotaValue} onChange={handleChange} required />
+            <input type="number" name="availableQuotas" placeholder="Nº de Cotas" value={formData.availableQuotas} onChange={handleChange} required />
+            {!isEditing && (
+                <>
+                    <label>Imagem de Destaque</label>
+                    <input type="file" accept="image/*" onChange={e => setImage(e.target.files[0])} required />
+                </>
+            )}
+            <div className="form-actions">
+                <button type="button" onClick={onCancel}>Cancelar</button>
+                <button type="submit" disabled={loading}>{loading ? 'A guardar...' : 'Guardar'}</button>
+            </div>
+        </form>
+    );
+};
+
+const CampaignManager = () => {
+    const [campaigns, setCampaigns] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [editingCampaign, setEditingCampaign] = useState(null);
 
     const fetchCampaigns = useCallback(async () => {
+        setLoading(true);
         setCampaigns(await getCampaigns());
+        setLoading(false);
     }, []);
 
     useEffect(() => {
         fetchCampaigns();
     }, [fetchCampaigns]);
 
-    const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleEdit = (campaign) => {
+        setEditingCampaign(campaign);
+        setIsFormVisible(true);
+    };
 
-    const handleCreateCampaign = async (e) => {
-        e.preventDefault();
-        if (!image) { alert("Por favor, selecione uma imagem."); return; }
-        setLoading(true);
-        await createCampaign(formData, image);
-        setFormData({ title: '', description: '', totalValue: '', quotaValue: '', availableQuotas: '' });
-        setImage(null);
-        e.target.reset(); // Limpa o campo de ficheiro
-        await fetchCampaigns();
-        setLoading(false);
+    const handleDelete = async (campaignId, imageUrl) => {
+        if (window.confirm("Tem a certeza que quer apagar esta campanha? Esta ação é irreversível.")) {
+            await deleteCampaign(campaignId, imageUrl);
+            fetchCampaigns();
+        }
+    };
+
+    const closeForm = () => {
+        setIsFormVisible(false);
+        setEditingCampaign(null);
     };
 
     return (
         <div className="campaign-manager">
-            <form className="campaign-form-container" onSubmit={handleCreateCampaign}>
-                <h3>Criar Nova Campanha</h3>
-                <input type="text" name="title" placeholder="Título da Campanha" value={formData.title} onChange={handleChange} required />
-                <textarea name="description" placeholder="Descrição" value={formData.description} onChange={handleChange} required />
-                <input type="number" name="totalValue" placeholder="Valor Total (R$)" value={formData.totalValue} onChange={handleChange} required />
-                <input type="number" name="quotaValue" placeholder="Valor da Cota (R$)" value={formData.quotaValue} onChange={handleChange} required />
-                <input type="number" name="availableQuotas" placeholder="Nº de Cotas Disponíveis" value={formData.availableQuotas} onChange={handleChange} required />
-                <label>Imagem de Destaque</label>
-                <input type="file" accept="image/*" onChange={e => setImage(e.target.files[0])} required />
-                <button type="submit" disabled={loading}>{loading ? 'A criar...' : 'Criar Campanha'}</button>
-            </form>
+            {!isFormVisible && (
+                <button className="btn-new-campaign" onClick={() => { setEditingCampaign(null); setIsFormVisible(true); }}>
+                    + Criar Nova Campanha
+                </button>
+            )}
+
+            {isFormVisible && (
+                <CampaignForm
+                    initialData={editingCampaign}
+                    onSave={() => { closeForm(); fetchCampaigns(); }}
+                    onCancel={closeForm}
+                />
+            )}
+
             <div className="campaign-list-container">
                 <h3>Campanhas Ativas</h3>
-                <div className="campaign-list">
-                    {campaigns.map(c => (
-                        <div key={c.id} className="campaign-card">
-                            <img src={c.imageUrl} alt={c.title} />
-                            <div className="campaign-card-info">
-                                <h4>{c.title}</h4>
-                                <span>{c.availableQuotas} cotas de R$ {c.quotaValue}</span>
+                {loading ? <p>A carregar...</p> : (
+                    <div className="campaign-list">
+                        {campaigns.map(c => (
+                            <div key={c.id} className="campaign-card-admin">
+                                <img src={c.imageUrl} alt={c.title} />
+                                <div className="campaign-card-info">
+                                    <h4>{c.title}</h4>
+                                    <span>{c.availableQuotas} cotas de R$ {c.quotaValue}</span>
+                                </div>
+                                <div className="campaign-card-actions">
+                                    <button onClick={() => handleEdit(c)}>Editar</button>
+                                    <button onClick={() => handleDelete(c.id, c.imageUrl)}>Apagar</button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
