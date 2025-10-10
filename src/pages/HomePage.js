@@ -7,8 +7,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaChartLine, FaHandshake, FaLightbulb } from 'react-icons/fa';
 import './HomePage.css';
 
-// ATUALIZADO: Usando o logótipo correto que você confirmou
+// Usando o logótipo e o vídeo corretos da sua pasta 'assets'
 import heroImage from '../assets/lion-broker-logo-transparent.png';
+import heroVideo from '../assets/hero-video.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,8 +39,11 @@ const HomePage = () => {
 
     return (
         <div className="homepage-container" ref={mainRef}>
-            {/* Secção Hero (Primeira dobra) */}
+            {/* Secção Hero agora com o VÍDEO de fundo */}
             <section className="hero-section" data-theme="dark">
+                <div className="video-background">
+                    <video src={heroVideo} autoPlay loop muted playsInline />
+                </div>
                 <div className="hero-content">
                     <img src={heroImage} alt="Lion Broker Investment Logo" className="hero-logo" />
                     <h1>Investimento Imobiliário Simplificado</h1>

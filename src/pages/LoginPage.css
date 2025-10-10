@@ -1,97 +1,250 @@
-/* src/pages/LoginPage.css */
+/* src/pages/HomePage.css */
 
-.auth-container {
+.homepage-container {
+    background-color: var(--dark-background);
+    color: var(--light-text);
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 80vh;
-    padding: 120px 20px 50px;
-    background-color: #030712;
-}
-
-.auth-form {
-    background-color: #1A1A1A;
-    padding: 40px;
-    border-radius: 10px;
-    border: 1px solid rgba(185, 154, 107, 0.2);
-    width: 100%;
-    max-width: 450px;
+    justify-content: center;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    color: var(--secondary-color);
+    overflow: hidden;
+    padding: 0 20px;
 }
 
-.auth-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 10px;
-}
-
-.auth-form p {
-    color: #d1d5db;
-    margin-bottom: 30px;
-    font-family: 'Poppins', sans-serif;
-}
-
-.auth-form input {
+/* ESTILOS PARA O VÍDEO DE FUNDO */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 12px 15px;
-    background: #2a2a2a;
-    border: 1px solid #444;
-    border-radius: 5px;
-    color: white;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    z-index: 1;
 }
-
-.auth-form input:focus {
-    outline: none;
-    border-color: #B99A6B;
-    box-shadow: 0 0 0 2px rgba(185, 154, 107, 0.2);
-}
-
-.auth-button {
+.video-background video {
     width: 100%;
-    padding: 12px;
-    background: #B99A6B;
-    color: #1A1A1A;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
+    height: 100%;
+    object-fit: cover; /* Faz o vídeo cobrir todo o espaço, cortando o excesso */
+}
+/* ----------------------------- */
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 7, 18, 0.7);
+    z-index: 2; /* Fica por cima do vídeo, mas atrás do conteúdo */
 }
 
-.auth-button:hover {
-    background-color: #d1b58f;
-}
-
-.auth-error {
-    color: #ef4444;
-    margin-top: 15px;
-    font-size: 0.9rem;
-}
-
-/* Estilos específicos para as mensagens de status no AffiliateDashboard */
-.status-pending, .status-approved, .status-rejected {
-    margin-top: 30px;
+.hero-content {
+    position: relative;
+    z-index: 3; /* Garante que o conteúdo fique à frente de tudo */
+    max-width: 900px;
     padding: 20px;
+}
+
+.hero-logo {
+    width: 250px;
+    height: auto;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 10px rgba(185, 154, 107, 0.5));
+}
+
+.hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    color: var(--primary-color);
+}
+
+.hero-tagline {
+    font-size: 1.4rem;
+    color: var(--secondary-color);
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 35px;
     border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
 }
-.status-pending {
-    background-color: #372c1a;
-    border: 1px solid #B99A6B;
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--dark-background);
+    border-color: var(--primary-color);
 }
-.status-approved {
-    background-color: #1a372a;
-    border: 1px solid #34d399;
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
-.status-rejected {
-    background-color: #3c1b1b;
-    border: 1px solid #dc2626;
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: var(--dark-background);
+    border-color: var(--secondary-color);
+}
+
+/* Secção Sobre Nós */
+.about-us-section {
+    text-align: center;
+    background-color: var(--dark-background);
+    padding: 80px 50px;
+}
+
+.about-us-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.about-us-section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    line-height: 1.8;
+    color: var(--light-text);
+}
+
+/* Secção Nossos Valores/Diferenciais */
+.values-section {
+    text-align: center;
+    background-color: var(--secondary-color);
+    color: var(--dark-text);
+    padding: 80px 50px;
+}
+
+.values-section h2 {
+    color: var(--dark-text);
+    margin-bottom: 40px;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.value-item {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.value-item:hover {
+    transform: translateY(-10px);
+}
+
+.value-icon {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.value-item h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    margin-bottom: 15px;
+}
+
+.value-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+}
+
+/* Secção Chamada para Ação (CTA) */
+.cta-section {
+    text-align: center;
+    background-color: #1A1A1A;
+    padding: 80px 50px;
+    border-top: 5px solid var(--primary-color);
+}
+
+.cta-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 3rem;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    color: var(--light-text);
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 1024px) {
+    .hero-content h1 { font-size: 3.5rem; }
+    .hero-tagline { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: auto;
+        min-height: 80vh;
+        padding: 120px 20px 60px;
+    }
+    .hero-content h1 { font-size: 2.8rem; }
+    .hero-tagline { font-size: 1rem; }
+    .hero-logo { width: 200px; }
+    .hero-actions { flex-direction: column; }
+    .btn { width: 100%; max-width: 300px; }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-us-section, .values-section, .cta-section {
+        padding: 60px 20px;
+    }
+
+    .cta-section h2 { font-size: 2.5rem; }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-logo { width: 150px; }
+    
+    .about-us-section, .values-section, .cta-section {
+        padding: 40px 15px;
+    }
+
+    .cta-section h2 { font-size: 2rem; }
 }
