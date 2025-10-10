@@ -14,14 +14,25 @@
     justify-content: center;
     text-align: center;
     color: var(--secondary-color);
-    /* IMAGEM DE FUNDO AGORA DEFINIDA AQUI */
-    background-image: url('../assets/hero-bg.webp');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     overflow: hidden;
     padding: 0 20px;
 }
+
+/* ESTILOS PARA O VÍDEO DE FUNDO */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz o vídeo cobrir todo o espaço, cortando o excesso */
+}
+/* ----------------------------- */
 
 .hero-section::before {
     content: '';
@@ -30,13 +41,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(3, 7, 18, 0.7); /* Overlay escuro para melhorar a legibilidade */
-    z-index: 1;
+    background: rgba(3, 7, 18, 0.7);
+    z-index: 2; /* Fica por cima do vídeo, mas atrás do conteúdo */
 }
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3; /* Garante que o conteúdo fique à frente de tudo */
     max-width: 900px;
     padding: 20px;
 }
