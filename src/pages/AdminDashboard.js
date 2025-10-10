@@ -23,7 +23,7 @@ const AffiliateManager = () => {
     const handleUpdateStatus = async (userId, newStatus) => {
         await updateUserStatus(userId, newStatus);
         fetchAffiliates();
-        setSelectedAffiliate(null); // Fecha o modal
+        setSelectedAffiliate(null);
     };
 
     const filteredAffiliates = affiliates.filter(aff => aff.status === filter);
@@ -81,6 +81,8 @@ const CampaignForm = ({ initialData, onSave, onCancel }) => {
     useEffect(() => {
         if (initialData) {
             setFormData(initialData);
+        } else {
+            setFormData({ title: '', description: '', totalValue: '', quotaValue: '', availableQuotas: '' });
         }
     }, [initialData]);
 
@@ -90,7 +92,7 @@ const CampaignForm = ({ initialData, onSave, onCancel }) => {
         e.preventDefault();
         setLoading(true);
         if (isEditing) {
-            const { id, ...dataToUpdate } = formData;
+            const { id, createdAt, imageUrl, ...dataToUpdate } = formData;
             await updateCampaign(id, dataToUpdate);
         } else {
             if (!image) {
@@ -105,24 +107,27 @@ const CampaignForm = ({ initialData, onSave, onCancel }) => {
     };
 
     return (
-        <form className="campaign-form-container modal-content" onSubmit={handleSubmit}>
-            <h3>{isEditing ? 'Editar Campanha' : 'Criar Nova Campanha'}</h3>
-            <input type="text" name="title" placeholder="Título" value={formData.title} onChange={handleChange} required />
-            <textarea name="description" placeholder="Descrição" value={formData.description} onChange={handleChange} required />
-            <input type="number" name="totalValue" placeholder="Valor Total (R$)" value={formData.totalValue} onChange={handleChange} required />
-            <input type="number" name="quotaValue" placeholder="Valor da Cota (R$)" value={formData.quotaValue} onChange={handleChange} required />
-            <input type="number" name="availableQuotas" placeholder="Nº de Cotas" value={formData.availableQuotas} onChange={handleChange} required />
-            {!isEditing && (
-                <>
-                    <label>Imagem de Destaque</label>
-                    <input type="file" accept="image/*" onChange={e => setImage(e.target.files[0])} required />
-                </>
-            )}
-            <div className="form-actions">
-                <button type="button" onClick={onCancel}>Cancelar</button>
-                <button type="submit" disabled={loading}>{loading ? 'A guardar...' : 'Guardar'}</button>
-            </div>
-        </form>
+        <div className="modal-overlay" onClick={onCancel}>
+            <form className="campaign-form-container modal-content" onClick={e => e.stopPropagation()} onSubmit={handleSubmit}>
+                <button className="close-modal" onClick={onCancel}>&times;</button>
+                <h3>{isEditing ? 'Editar Campanha' : 'Criar Nova Campanha'}</h3>
+                <input type="text" name="title" placeholder="Título" value={formData.title} onChange={handleChange} required />
+                <textarea name="description" placeholder="Descrição" value={formData.description} onChange={handleChange} required />
+                <input type="number" name="totalValue" placeholder="Valor Total (R$)" value={formData.totalValue} onChange={handleChange} required />
+                <input type="number" name="quotaValue" placeholder="Valor da Cota (R$)" value={formData.quotaValue} onChange={handleChange} required />
+                <input type="number" name="availableQuotas" placeholder="Nº de Cotas" value={formData.availableQuotas} onChange={handleChange} required />
+                {!isEditing && (
+                    <>
+                        <label>Imagem de Destaque</label>
+                        <input type="file" accept="image/*" onChange={e => setImage(e.target.files[0])} required />
+                    </>
+                )}
+                <div className="form-actions">
+                    <button type="button" onClick={onCancel}>Cancelar</button>
+                    <button type="submit" disabled={loading}>{loading ? 'A guardar...' : 'Guardar'}</button>
+                </div>
+            </form>
+        </div>
     );
 };
 
@@ -138,9 +143,7 @@ const CampaignManager = () => {
         setLoading(false);
     }, []);
 
-    useEffect(() => {
-        fetchCampaigns();
-    }, [fetchCampaigns]);
+    useEffect(() => { fetchCampaigns(); }, [fetchCampaigns]);
 
     const handleEdit = (campaign) => {
         setEditingCampaign(campaign);
@@ -161,11 +164,9 @@ const CampaignManager = () => {
 
     return (
         <div className="campaign-manager">
-            {!isFormVisible && (
-                <button className="btn-new-campaign" onClick={() => { setEditingCampaign(null); setIsFormVisible(true); }}>
-                    + Criar Nova Campanha
-                </button>
-            )}
+            <button className="btn-new-campaign" onClick={() => { setEditingCampaign(null); setIsFormVisible(true); }}>
+                + Criar Nova Campanha
+            </button>
 
             {isFormVisible && (
                 <CampaignForm
@@ -199,6 +200,63 @@ const CampaignManager = () => {
     );
 };
 
+const NetworkManager = () => {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            const allUsers = await getAllUsers();
+            setUsers(allUsers);
+            setLoading(false);
+        };
+        fetchUsers();
+    }, []);
+
+    const buildHierarchy = (list) => {
+        const map = {};
+        const roots = [];
+        list.forEach(user => {
+            map[user.uid] = { ...user, children: [] };
+        });
+        
+        list.forEach(user => {
+            if (user.personalData?.referralCode && map[user.personalData.referralCode]) {
+                const parent = map[user.personalData.referralCode];
+                parent.children.push(map[user.uid]);
+            } else {
+                roots.push(map[user.uid]);
+            }
+        });
+        return roots;
+    };
+    
+    const renderTree = (nodes) => (
+        <ul className="network-tree">
+            {nodes.map(node => (
+                <li key={node.uid}>
+                    <div className="node-content">
+                        <span className="node-name">{node.name} ({node.email})</span>
+                    </div>
+                    {node.children && node.children.length > 0 && renderTree(node.children)}
+                </li>
+            ))}
+        </ul>
+    );
+
+    if (loading) return <p>A carregar rede...</p>;
+
+    const hierarchy = buildHierarchy(users.filter(u => u.role === 'affiliate'));
+
+    return (
+        <div>
+            <h3>Organograma de Afiliados</h3>
+            {hierarchy.length > 0 ? renderTree(hierarchy) : <p className="empty-state">Nenhum afiliado com indicação encontrado para construir a rede.</p>}
+        </div>
+    );
+};
+
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('affiliates');
     return (
@@ -210,9 +268,11 @@ const AdminDashboard = () => {
                 <div className="main-tabs">
                     <button onClick={() => setActiveTab('affiliates')} className={activeTab === 'affiliates' ? 'active' : ''}>Gestão de Afiliados</button>
                     <button onClick={() => setActiveTab('campaigns')} className={activeTab === 'campaigns' ? 'active' : ''}>Gestão de Campanhas</button>
+                    <button onClick={() => setActiveTab('network')} className={activeTab === 'network' ? 'active' : ''}>Rede de Afiliados</button>
                 </div>
                 {activeTab === 'affiliates' && <AffiliateManager />}
                 {activeTab === 'campaigns' && <CampaignManager />}
+                {activeTab === 'network' && <NetworkManager />}
             </div>
         </div>
     );

@@ -1,20 +1,22 @@
 /* src/components/scenes/StatsScene.css */
 .stats-scene {
-  min-height: 70vh;
   padding: 120px 50px;
-  background-color: #181818; /* Fundo escuro */
-  color: #F9FAFB; /* Texto claro */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: #000000; /* Fundo preto sólido */
+  color: #F9FAFB;
   text-align: center;
+}
+.stats-title {
+    margin-bottom: 80px;
 }
 .stats-title h2 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 3rem;
-  margin-bottom: 80px;
   color: #fff;
+  margin-bottom: 10px;
+}
+.stats-title p {
+    font-size: 1.2rem;
+    color: #aaa;
 }
 .stats-grid {
   display: grid;
@@ -22,6 +24,17 @@
   gap: 50px;
   width: 100%;
   max-width: 1100px;
+  margin: 0 auto;
+}
+.stat-item {
+    border: 1px solid #333;
+    padding: 40px 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.stat-item:hover {
+    background-color: #181818;
+    transform: translateY(-10px);
 }
 .stat-item h3 {
   font-family: 'Poppins', sans-serif;
@@ -34,10 +47,15 @@
   font-size: 1rem;
   margin-top: 15px;
   color: #d1d5db;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+@media (max-width: 960px) {
+    .stat-item h3 { font-size: 6vw; }
+}
 @media (max-width: 768px) {
   .stats-grid { grid-template-columns: 1fr; }
   .stats-title h2 { font-size: 2.5rem; }
-  .stat-item h3 { font-size: 8vw; }
+  .stat-item h3 { font-size: 10vw; }
 }

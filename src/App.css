@@ -1,178 +1,21 @@
 /* src/App.css */
-
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
-:root {
-  --primary-color: #B99A6B; /* Dourado */
-  --secondary-color: #F8F5F1; /* Off-white */
-  --dark-background: #030712; /* Azul Marinho Escuro */
-  --light-text: #E5E7EB; /* Cinza Claro */
-  --dark-text: #1F2937; /* Cinza Escuro */
-  --shadow-color: rgba(0, 0, 0, 0.2);
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Poppins:wght@300;400;500;700;800&display=swap');
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* REMOVIDO: cursor: url('./assets/cursor.webp'), auto; */
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  color: var(--light-text);
-  background-color: var(--dark-background);
-  line-height: 1.6;
-  overflow-x: hidden; /* Evita scroll horizontal */
+  /* COR DE FUNDO FINAL: Preto profundo para combinar com o logótipo */
+  background-color: #000000; 
+  color: #EAEAEA;
+  overflow-x: hidden;
 }
 
-a {
-  text-decoration: none;
-  color: var(--primary-color);
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: var(--secondary-color);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cormorant Garamond', serif;
-  color: var(--light-text);
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-h1 { font-size: 3.5rem; }
-h2 { font-size: 2.5rem; }
-h3 { font-size: 1.8rem; }
-
-p {
-  margin-bottom: 1rem;
-}
-
-button {
-  font-family: 'Poppins', sans-serif;
-  cursor: pointer;
-}
-
-.section-padding {
-  padding: 80px 50px;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Formulários Comuns */
-.form-container {
-  background: #1A1A1A;
-  padding: 40px;
-  border-radius: 10px;
-  max-width: 500px;
-  margin: 50px auto;
-  box-shadow: 0 5px 15px var(--shadow-color);
-}
-
-.form-container h2 {
-  text-align: center;
-  color: var(--primary-color);
-  margin-bottom: 30px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--light-text);
-  font-weight: 500;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"],
-.form-group input[type="tel"],
-.form-group input[type="number"],
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 12px;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 5px;
-  color: var(--light-text);
-  font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: #777;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(185, 154, 107, 0.3);
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
-}
-
-.form-actions button.nav-button {
-  background-color: var(--primary-color);
-  color: var(--dark-background);
-  padding: 12px 25px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.form-actions button.nav-button:hover {
-  background-color: var(--secondary-color);
-  color: var(--dark-text);
-}
-
-.text-center {
-  text-align: center;
-}
-
-.link-text {
-  color: var(--primary-color);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.error-message {
-  color: #ef4444;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.5rem; }
-
-  .section-padding {
-    padding: 60px 20px;
-  }
+/* Garante que o conteúdo principal não fique escondido atrás da navbar fixa */
+/* Removido pois cada página controlará o seu próprio espaçamento */
+.main-content {
 }

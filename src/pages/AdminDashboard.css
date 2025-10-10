@@ -1,39 +1,95 @@
 /* src/pages/AdminDashboard.css */
-.dashboard-container { padding: 120px 50px 50px; background-color: #030712; min-height: 100vh; color: #f4f4f4; }
+.dashboard-container {
+    padding: 120px 50px 50px;
+    background-color: #000000;
+    min-height: 100vh;
+    color: #f4f4f4;
+}
 .dashboard-header { text-align: center; margin-bottom: 50px; }
 .dashboard-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; }
 .dashboard-content { max-width: 1200px; margin: 0 auto; }
 .main-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 40px; }
-.main-tabs button { padding: 15px 30px; border: none; background: transparent; color: #aaa; cursor: pointer; font-size: 1.1rem; }
+.main-tabs button {
+    padding: 15px 30px; border: none; background: transparent; color: #aaa;
+    cursor: pointer; font-size: 1.1rem; font-family: 'Poppins', sans-serif;
+}
 .main-tabs button.active { color: #B99A6B; border-bottom: 2px solid #B99A6B; }
 .filter-tabs { display: flex; gap: 10px; margin-bottom: 30px; }
-.filter-tabs button { padding: 10px 20px; border: 1px solid #B99A6B; background: transparent; color: #B99A6B; border-radius: 5px; cursor: pointer; transition: all 0.3s ease; }
+.filter-tabs button {
+    padding: 10px 20px; border: 1px solid #B99A6B; background: transparent;
+    color: #B99A6B; border-radius: 5px; cursor: pointer; transition: all 0.3s ease;
+}
 .filter-tabs button:hover, .filter-tabs button.active { background: #B99A6B; color: #1A1A1A; }
 .affiliate-list { display: grid; gap: 20px; }
-.affiliate-card { background: #1A1A1A; padding: 20px; border-radius: 8px; border-left: 5px solid #B99A6B; }
+.affiliate-card {
+    background: #1A1A1A; padding: 20px; border-radius: 8px;
+    border-left: 5px solid #B99A6B; cursor: pointer; transition: background-color 0.3s ease;
+}
+.affiliate-card:hover { background: #2a2a2a; }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .card-header h3 { font-family: 'Poppins', sans-serif; font-size: 1.2rem; }
-.status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; text-transform: uppercase; }
+.status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
 .status-pending { background-color: #ca8a04; color: #fff; }
 .status-approved { background-color: #16a34a; color: #fff; }
 .status-rejected { background-color: #dc2626; color: #fff; }
-.card-body p { color: #d1d5db; line-height: 1.6; }
+.card-body p, .modal-content p { color: #d1d5db; line-height: 1.6; }
 .card-actions { margin-top: 20px; display: flex; gap: 10px; }
 .btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
 .btn-approve { background: #16a34a; color: white; }
 .btn-reject { background: #dc2626; color: white; }
-.empty-state { color: #aaa; text-align: center; padding: 40px; }
-/* Estilos para Gestão de Campanhas */
-.campaign-manager { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+.empty-state {
+    color: #aaa; text-align: center; padding: 40px;
+    border: 2px dashed #333; border-radius: 8px;
+}
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center; z-index: 2000;
+}
+.modal-content {
+    background: #1A1A1A; padding: 40px; border-radius: 10px;
+    width: 90%; max-width: 600px; position: relative; border: 1px solid #333;
+}
+.modal-content h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 20px; }
+.modal-content p strong { color: #f4f4f4; }
+.modal-content a.link-document { color: #B99A6B; display: inline-block; margin-top: 10px; }
+.close-modal {
+    position: absolute; top: 15px; right: 20px; background: none;
+    border: none; color: white; font-size: 2rem; cursor: pointer;
+}
+.btn-new-campaign {
+    background: #B99A6B; color: #1A1A1A; padding: 15px 30px;
+    border: none; border-radius: 5px; font-weight: bold;
+    cursor: pointer; font-size: 1.1rem; margin-bottom: 40px;
+}
+.campaign-form-container { z-index: 2001; } /* Garante que o formulário fique à frente do overlay */
 .campaign-form-container h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 20px; }
 .campaign-form-container input, .campaign-form-container textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #2a2a2a; border: 1px solid #444; border-radius: 5px; color: white; font-family: 'Poppins', sans-serif; }
 .campaign-form-container textarea { min-height: 120px; }
 .campaign-form-container label { display: block; margin-bottom: 5px; color: #aaa; }
-.campaign-form-container button { width: 100%; padding: 12px; background: #B99A6B; color: #1A1A1A; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+.campaign-form-container button { padding: 12px; background: #B99A6B; color: #1A1A1A; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; }
 .campaign-form-container button:disabled { background: #555; cursor: not-allowed; }
+.campaign-form-container .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+.campaign-form-container .form-actions button { width: auto; flex: 1; }
+.campaign-form-container .form-actions button[type="button"] { background: #555; color: white; }
+.campaign-list-container { margin-top: 20px; }
 .campaign-list-container h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 20px; }
-.campaign-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.campaign-card { background: #1A1A1A; border-radius: 8px; overflow: hidden; }
-.campaign-card img { width: 100%; height: 150px; object-fit: cover; }
-.campaign-card h4 { padding: 15px; font-size: 1rem; }
-@media (max-width: 960px) { .campaign-manager { grid-template-columns: 1fr; } .campaign-list { grid-template-columns: 1fr; } }
+.campaign-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.campaign-card-admin { background: #1A1A1A; border-radius: 8px; overflow: hidden; position: relative; }
+.campaign-card-admin:hover .campaign-card-actions { opacity: 1; }
+.campaign-card-admin img { width: 100%; height: 150px; object-fit: cover; }
+.campaign-card-admin .campaign-card-info { padding: 15px; }
+.campaign-card-info h4 { font-size: 1rem; margin-bottom: 5px; color: #fff; }
+.campaign-card-info span { font-size: 0.8rem; color: #aaa; }
+.campaign-card-actions {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); display: flex; justify-content: center;
+    align-items: center; gap: 15px; opacity: 0; transition: opacity 0.3s ease;
+}
+.campaign-card-actions button { padding: 10px 20px; cursor: pointer; border-radius: 5px; border: none; }
+.network-tree { list-style: none; padding-left: 20px; }
+.network-tree ul { list-style: none; padding-left: 40px; margin-top: 10px; border-left: 1px solid #444; }
+.network-tree li { margin-bottom: 15px; }
+.node-content { background: #1A1A1A; padding: 15px; border-radius: 5px; border-left: 3px solid #B99A6B; }
+.node-name { font-weight: bold; display: block; margin-bottom: 5px; }
+.node-email { font-size: 0.9rem; color: #aaa; }
