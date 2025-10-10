@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { getCampaigns } from '../firebaseFirestore';
+import { FaChartLine, FaHandHoldingUsd, FaUsers } from 'react-icons/fa';
 import './AuthPages.css';
-import './AffiliateDashboard.css'; // Novo CSS
+import './AffiliateDashboard.css';
 
 const AffiliateDashboard = () => {
     const { userData, loading: authLoading } = useAuth();
@@ -35,32 +36,54 @@ const AffiliateDashboard = () => {
             </header>
 
             <div className="dashboard-content">
-                {userData?.status === 'pending' && (
-                    <div className="status-message status-pending">
-                        <h3>O seu cadastro está em análise.</h3>
-                        <p>Por favor, aguarde a aprovação de um administrador para ter acesso completo às oportunidades.</p>
-                    </div>
-                )}
-                 {userData?.status === 'rejected' && (
-                    <div className="status-message status-rejected">
-                        <h3>O seu cadastro foi rejeitado.</h3>
-                        <p>Entre em contacto com o nosso suporte para mais informações.</p>
-                    </div>
-                )}
-                {userData?.status === 'approved' && (
-                    <div className="campaigns-grid">
-                        <h2>Oportunidades Disponíveis</h2>
-                        {loadingCampaigns ? <p>A carregar campanhas...</p> : (
-                            campaigns.map(campaign => (
-                                <div key={campaign.id} className="aff-campaign-card">
-                                    <img src={campaign.imageUrl} alt={campaign.title} />
+                {userData?.status === 'approved' ? (
+                    <>
+                        {/* INDICADORES / KPIs */}
+                        <div className="kpi-grid">
+                            <div className="kpi-card">
+                                <h3>Comissão Pendente</h3>
+                                <span>R$ 0,00</span>
+                                <FaHandHoldingUsd className="kpi-icon" />
+                            </div>
+                            <div className="kpi-card">
+                                <h3>Leads Gerados</h3>
+                                <span>0</span>
+                                <FaUsers className="kpi-icon" />
+                            </div>
+                             <div className="kpi-card">
+                                <h3>Performance</h3>
+                                <span>0%</span>
+                                <FaChartLine className="kpi-icon" />
+                            </div>
+                        </div>
+                        {/* LISTA DE CAMPANHAS */}
+                        <div className="campaigns-grid">
+                            <h2>Oportunidades Disponíveis</h2>
+                            {loadingCampaigns ? <p>A carregar campanhas...</p> : campaigns.map(c => (
+                                <div key={c.id} className="aff-campaign-card">
+                                    <img src={c.imageUrl} alt={c.title} />
                                     <div className="aff-campaign-info">
-                                        <h3>{campaign.title}</h3>
-                                        <p>{campaign.description}</p>
+                                        <h3>{c.title}</h3>
+                                        <p>{c.description}</p>
+                                        <div className="campaign-numbers">
+                                            <span><strong>Valor Total:</strong> R$ {Number(c.totalValue).toLocaleString('pt-BR')}</span>
+                                            <span><strong>Cotas Disp.:</strong> {c.availableQuotas}</span>
+                                            <span><strong>Valor da Cota:</strong> R$ {Number(c.quotaValue).toLocaleString('pt-BR')}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            ))
-                        )}
+                            ))}
+                        </div>
+                    </>
+                ) : userData?.status === 'pending' ? (
+                    <div className="status-message status-pending">
+                        <h3>O seu cadastro está em análise.</h3>
+                        <p>Aguarde a aprovação para ter acesso completo.</p>
+                    </div>
+                ) : (
+                     <div className="status-message status-rejected">
+                        <h3>O seu cadastro foi rejeitado.</h3>
+                        <p>Entre em contacto com o nosso suporte para mais informações.</p>
                     </div>
                 )}
             </div>

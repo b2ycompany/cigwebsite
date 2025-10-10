@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { updateUserProfile } from '../firebaseFirestore';
+import InputMask from 'react-input-mask';
 
 const PersonalStep = () => {
     const navigate = useNavigate();
@@ -28,18 +29,22 @@ const PersonalStep = () => {
             <h2>Dados Pessoais e Profissionais</h2>
             <div className="form-group">
                 <label>Telefone</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required />
+                <InputMask mask="(99) 99999-9999" value={formData.phone} onChange={handleChange}>
+                    {(inputProps) => <input {...inputProps} type="tel" name="phone" required />}
+                </InputMask>
             </div>
             <div className="form-group">
                 <label>CPF / CNPJ</label>
-                <input type="text" name="documentId" value={formData.documentId} onChange={handleChange} required />
+                <InputMask mask="99.999.999/9999-99" value={formData.documentId} onChange={handleChange}>
+                  {(inputProps) => <input {...inputProps} type="text" name="documentId" required />}
+                </InputMask>
             </div>
             <div className="form-group">
                 <label>Profissão</label>
                 <input type="text" name="profession" value={formData.profession} onChange={handleChange} />
             </div>
             <div className="form-group">
-                <label>Recebeu indicação de outro parceiro? (Opcional)</label>
+                <label>Recebeu indicação? (Opcional)</label>
                 <input type="text" name="referralCode" value={formData.referralCode} onChange={handleChange} placeholder="Código do parceiro" />
             </div>
             <div className="form-actions">
@@ -48,5 +53,4 @@ const PersonalStep = () => {
         </form>
     );
 };
-
 export default PersonalStep;

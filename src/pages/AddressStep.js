@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { updateUserProfile } from '../firebaseFirestore';
+import InputMask from 'react-input-mask';
 
 const AddressStep = () => {
     const navigate = useNavigate();
@@ -28,7 +29,9 @@ const AddressStep = () => {
             <h2>Endereço</h2>
             <div className="form-group">
                 <label>CEP</label>
-                <input type="text" name="cep" value={formData.cep} onChange={handleChange} required />
+                <InputMask mask="99999-999" value={formData.cep} onChange={handleChange}>
+                    {(inputProps) => <input {...inputProps} type="text" name="cep" required />}
+                </InputMask>
             </div>
             <div className="form-group">
                 <label>Rua / Avenida</label>
