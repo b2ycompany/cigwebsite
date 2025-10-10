@@ -1,24 +1,45 @@
 // src/firebaseFirestore.js
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db } from './firebaseConfig';
 
-// Busca todos os utilizadores da coleção 'users'
-export const getAllUsers = async () => {
-    const usersCol = collection(db, 'users');
-    const userSnapshot = await getDocs(usersCol);
-    const userList = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return userList;
+const storage = getStorage();
+
+// --- Funções de Utilizador ---
+export const getAllUsers = async () => { /* ... (código existente) ... */ };
+export const updateUserStatus = async (userId, newStatus) => { /* ... (código existente) ... */ };
+
+// --- NOVAS Funções de Campanha ---
+
+// Upload de imagem para o Firebase Storage
+const uploadImage = async (imageFile) => {
+    const storageRef = ref(storage, `campaigns/${Date.now()}_${imageFile.name}`);
+    await uploadBytes(storageRef, imageFile);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
 };
 
-// Atualiza o status de um utilizador para 'approved'
-export const updateUserStatus = async (userId, newStatus) => {
-    const userDoc = doc(db, 'users', userId);
+// Cria uma nova campanha no Firestore
+export const createCampaign = async (campaignData, imageFile) => {
     try {
-        await updateDoc(userDoc, { status: newStatus });
-        console.log(`Status do utilizador ${userId} atualizado para ${newStatus}`);
+        const imageUrl = await uploadImage(imageFile);
+        const campaignsCol = collection(db, 'campaigns');
+        await addDoc(campaignsCol, {
+            ...campaignData,
+            imageUrl: imageUrl,
+            createdAt: serverTimestamp()
+        });
         return { success: true };
     } catch (error) {
-        console.error("Erro ao atualizar status:", error);
+        console.error("Erro ao criar campanha:", error);
         return { success: false, error };
     }
+};
+
+// Busca todas as campanhas
+export const getCampaigns = async () => {
+    const campaignsCol = collection(db, 'campaigns');
+    const campaignSnapshot = await getDocs(campaignsCol);
+    const campaignList = campaignSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return campaignList;
 };

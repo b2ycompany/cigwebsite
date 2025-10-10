@@ -1,36 +1,67 @@
 // src/pages/AffiliateDashboard.js
-import React from 'react';
-import { useAuth } from '../hooks/useAuth'; // Usaremos o hook para obter os dados do utilizador
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { getCampaigns } from '../firebaseFirestore';
 import './AuthPages.css';
+import './AffiliateDashboard.css'; // Novo CSS
 
 const AffiliateDashboard = () => {
-    const { user, userData, loading } = useAuth();
+    const { userData, loading: authLoading } = useAuth();
+    const [campaigns, setCampaigns] = useState([]);
+    const [loadingCampaigns, setLoadingCampaigns] = useState(true);
 
-    if (loading) {
-        return <div className="auth-container"><p>A carregar dados...</p></div>;
+    const fetchCampaigns = useCallback(async () => {
+        if (userData?.status === 'approved') {
+            setLoadingCampaigns(true);
+            const campaignList = await getCampaigns();
+            setCampaigns(campaignList);
+            setLoadingCampaigns(false);
+        }
+    }, [userData]);
+
+    useEffect(() => {
+        fetchCampaigns();
+    }, [fetchCampaigns]);
+
+    if (authLoading) {
+        return <div className="dashboard-loading"><p>A carregar dados do utilizador...</p></div>;
     }
 
     return (
-        <div className="auth-container">
-            <div className="auth-form" style={{ maxWidth: '800px' }}>
-                <h1 className="auth-title">Painel do Parceiro</h1>
-                {userData && (
-                    <>
-                        <p>Olá, {userData.name}. Bem-vindo à sua área restrita.</p>
-                        {userData.status === 'pending' && (
-                            <div className="status-pending">
-                                <h3>O seu cadastro está em análise.</h3>
-                                <p>Por favor, aguarde a aprovação de um administrador para ter acesso completo às oportunidades.</p>
-                            </div>
+        <div className="affiliate-dashboard-container">
+            <header className="dashboard-header">
+                <h1>Painel do Parceiro</h1>
+                <p>Olá, {userData?.name}. Bem-vindo à sua área restrita.</p>
+            </header>
+
+            <div className="dashboard-content">
+                {userData?.status === 'pending' && (
+                    <div className="status-message status-pending">
+                        <h3>O seu cadastro está em análise.</h3>
+                        <p>Por favor, aguarde a aprovação de um administrador para ter acesso completo às oportunidades.</p>
+                    </div>
+                )}
+                 {userData?.status === 'rejected' && (
+                    <div className="status-message status-rejected">
+                        <h3>O seu cadastro foi rejeitado.</h3>
+                        <p>Entre em contacto com o nosso suporte para mais informações.</p>
+                    </div>
+                )}
+                {userData?.status === 'approved' && (
+                    <div className="campaigns-grid">
+                        <h2>Oportunidades Disponíveis</h2>
+                        {loadingCampaigns ? <p>A carregar campanhas...</p> : (
+                            campaigns.map(campaign => (
+                                <div key={campaign.id} className="aff-campaign-card">
+                                    <img src={campaign.imageUrl} alt={campaign.title} />
+                                    <div className="aff-campaign-info">
+                                        <h3>{campaign.title}</h3>
+                                        <p>{campaign.description}</p>
+                                    </div>
+                                </div>
+                            ))
                         )}
-                        {userData.status === 'approved' && (
-                            <div className="status-approved">
-                                <h3>Cadastro Aprovado!</h3>
-                                <p>Você já pode visualizar todas as nossas oportunidades de investimento.</p>
-                                {/* Aqui entrará a lista de projetos para o afiliado */}
-                            </div>
-                        )}
-                    </>
+                    </div>
                 )}
             </div>
         </div>
