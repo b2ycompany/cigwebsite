@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (user) {
-        // Se o utilizador está logado, mostra a página
+        // Se o utilizador está logado (qualquer papel), mostra a página
         return children;
     }
 
