@@ -1,4 +1,4 @@
-// src/components/Navbar/Navbar.js
+// src/components/Navbar.js
 
 import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,9 +7,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
-import { useAuth } from '../../hooks/useAuth';
-import { signOutUser } from '../../firebaseAuth';
-import logoImage from '../../assets/logo.png'; // Caminho e extensão corrigidos
+// CAMINHOS CORRIGIDOS AQUI (../ em vez de ../../)
+import { useAuth } from '../hooks/useAuth';
+import { signOutUser } from '../firebaseAuth';
+import logoImage from '../assets/logo.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
