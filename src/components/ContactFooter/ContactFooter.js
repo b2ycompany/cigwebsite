@@ -8,7 +8,7 @@ const ContactFooter = () => {
         <footer className="contact-footer">
             <div className="footer-grid">
                 <div className="footer-column brand-column">
-                    <h3 className="footer-logo">CIG</h3>
+                    <h3 className="footer-logo">LION</h3>
                     <p>Lion - Investment Broker</p>
                     <div className="social-icons">
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
@@ -27,7 +27,7 @@ const ContactFooter = () => {
                 <div className="footer-column">
                     <h4>Contacto</h4>
                     <p>Av. Paulista, 171, 4º andar<br/>Bela Vista, São Paulo - SP<br/>CEP: 01311-000</p>
-                    <p>invest@cigroup.com</p>
+                    <p>invest@cliongroup.com</p>
                 </div>
                 <div className="footer-column form-column">
                     <h4>Seja um Investidor</h4>

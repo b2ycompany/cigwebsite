@@ -16,7 +16,7 @@ const SplashScreen = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.5, delay: 0.5 }}
                 >
-                    CIG
+                    LION
                 </motion.div>
                 <motion.div
                     className="splash-fullname"
