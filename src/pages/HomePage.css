@@ -8,17 +8,19 @@
 /* Hero Section */
 .hero-section {
     position: relative;
-    height: 100vh; /* Ocupa a altura total da tela */
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--secondary-color);
+    /* IMAGEM DE FUNDO AGORA DEFINIDA AQUI */
+    background-image: url('../assets/hero-bg.webp');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Efeito parallax */
-    overflow: hidden; /* Garante que o conteúdo não vaze */
-    padding: 0 20px; /* Padding para evitar conteúdo colado nas bordas */
+    background-attachment: fixed;
+    overflow: hidden;
+    padding: 0 20px;
 }
 
 .hero-section::before {
@@ -28,7 +30,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Overlay escuro para melhorar a legibilidade do texto */
+    background: rgba(3, 7, 18, 0.7); /* Overlay escuro para melhorar a legibilidade */
     z-index: 1;
 }
 
@@ -40,10 +42,10 @@
 }
 
 .hero-logo {
-    width: 250px; /* Tamanho ajustável do logótipo */
+    width: 250px;
     height: auto;
     margin-bottom: 30px;
-    filter: drop-shadow(0 0 10px rgba(185, 154, 107, 0.5)); /* Sutil sombra dourada */
+    filter: drop-shadow(0 0 10px rgba(185, 154, 107, 0.5));
 }
 
 .hero-content h1 {
@@ -67,7 +69,7 @@
     display: flex;
     gap: 20px;
     justify-content: center;
-    flex-wrap: wrap; /* Para responsividade */
+    flex-wrap: wrap;
 }
 
 .btn {
@@ -77,7 +79,7 @@
     font-weight: 600;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    border: 2px solid transparent; /* Base para o hover */
+    border: 2px solid transparent;
 }
 
 .btn-primary {
@@ -108,6 +110,7 @@
 .about-us-section {
     text-align: center;
     background-color: var(--dark-background);
+    padding: 80px 50px;
 }
 
 .about-us-section h2 {
@@ -126,8 +129,9 @@
 /* Secção Nossos Valores/Diferenciais */
 .values-section {
     text-align: center;
-    background-color: var(--secondary-color); /* Fundo mais claro para contraste */
-    color: var(--dark-text); /* Texto escuro para fundo claro */
+    background-color: var(--secondary-color);
+    color: var(--dark-text);
+    padding: 80px 50px;
 }
 
 .values-section h2 {
@@ -176,7 +180,7 @@
 /* Secção Chamada para Ação (CTA) */
 .cta-section {
     text-align: center;
-    background-color: #1A1A1A; /* Fundo escuro diferente para CTA */
+    background-color: #1A1A1A;
     padding: 80px 50px;
     border-top: 5px solid var(--primary-color);
 }
@@ -204,7 +208,7 @@
     .hero-section {
         height: auto;
         min-height: 80vh;
-        padding: 120px 20px 60px; /* Ajuste para navbar e footer */
+        padding: 120px 20px 60px;
     }
     .hero-content h1 { font-size: 2.8rem; }
     .hero-tagline { font-size: 1rem; }
@@ -215,6 +219,10 @@
     .values-grid {
         grid-template-columns: 1fr;
     }
+    
+    .about-us-section, .values-section, .cta-section {
+        padding: 60px 20px;
+    }
 
     .cta-section h2 { font-size: 2.5rem; }
 }
@@ -222,6 +230,10 @@
 @media (max-width: 480px) {
     .hero-content h1 { font-size: 2.2rem; }
     .hero-logo { width: 150px; }
-    .section-padding { padding: 40px 15px; }
+    
+    .about-us-section, .values-section, .cta-section {
+        padding: 40px 15px;
+    }
+
     .cta-section h2 { font-size: 2rem; }
 }

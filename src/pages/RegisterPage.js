@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { signUpAffiliate } from '../firebaseAuth';
 import { useNavigate } from 'react-router-dom';
-import './AuthPages.css';
+// CORREÇÃO: Importando o ficheiro de estilo correto
+import './RegisterPage.css';
 
 const RegisterPage = () => {
     const [name, setName] = useState('');
@@ -16,7 +17,6 @@ const RegisterPage = () => {
         setError('');
         const result = await signUpAffiliate(name, email, password);
         if (result.success) {
-            // Redireciona para o início do fluxo de onboarding após o registo de autenticação
             navigate('/onboarding/personal');
         } else {
             setError(result.error);

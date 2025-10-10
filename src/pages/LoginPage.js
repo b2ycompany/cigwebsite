@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { signInUser } from '../firebaseAuth';
 import { useNavigate } from 'react-router-dom';
-import './AuthPages.css';
+// CORREÇÃO: Importando o ficheiro de estilo correto
+import './LoginPage.css';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -16,11 +17,10 @@ const LoginPage = () => {
         const result = await signInUser(email, password);
         
         if (result.success) {
-            // LÓGICA DE REDIRECIONAMENTO
             if (result.userData.role === 'admin') {
-                navigate('/admin'); // Redireciona admins para /admin
+                navigate('/admin');
             } else {
-                navigate('/dashboard'); // Redireciona outros utilizadores para /dashboard
+                navigate('/dashboard');
             }
         } else {
             setError('E-mail ou palavra-passe inválidos.');
