@@ -16,8 +16,8 @@ const RegisterPage = () => {
         setError('');
         const result = await signUpAffiliate(name, email, password);
         if (result.success) {
-            alert('Cadastro realizado com sucesso! Aguarde a aprovação do administrador.');
-            navigate('/login');
+            // Redireciona para o início do fluxo de onboarding após o registo de autenticação
+            navigate('/onboarding/personal');
         } else {
             setError(result.error);
         }
@@ -27,16 +27,17 @@ const RegisterPage = () => {
         <div className="auth-container">
             <div className="auth-form">
                 <h1 className="auth-title">Seja Nosso Parceiro</h1>
-                <p>Cadastre-se para ter acesso a oportunidades de investimento exclusivas.</p>
+                <p>Crie a sua conta para iniciar o processo de afiliação.</p>
                 <form onSubmit={handleRegister}>
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome Completo" required />
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail" required />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Palavra-passe" required />
-                    <button type="submit" className="auth-button">Cadastrar</button>
+                    <input type="password" minLength="6" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Palavra-passe (mín. 6 caracteres)" required />
+                    <button type="submit" className="auth-button">Criar Conta e Continuar</button>
                     {error && <p className="auth-error">{error}</p>}
                 </form>
             </div>
         </div>
     );
 };
+
 export default RegisterPage;

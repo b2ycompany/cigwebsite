@@ -1,0 +1,32 @@
+/* src/pages/Onboarding.css */
+.onboarding-container {
+    display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    padding: 50px 20px; background-color: #030712;
+}
+.onboarding-card {
+    background-color: #1A1A1A; padding: 40px; border-radius: 10px;
+    border: 1px solid rgba(185, 154, 107, 0.2); width: 100%; max-width: 600px;
+}
+.progress-bar { display: flex; justify-content: space-between; margin-bottom: 40px; }
+.progress-step {
+    flex: 1; text-align: center; color: #666; padding-bottom: 10px;
+    border-bottom: 2px solid #444; position: relative;
+}
+.progress-step.active {
+    color: #B99A6B; border-bottom-color: #B99A6B; font-weight: bold;
+}
+.onboarding-content h2 {
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+    color: #fff; margin-bottom: 30px;
+}
+.onboarding-content .form-group { margin-bottom: 20px; }
+.onboarding-content label { display: block; color: #aaa; margin-bottom: 5px; }
+.onboarding-content input, .onboarding-content select {
+    width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444;
+    border-radius: 5px; color: white; font-family: 'Poppins', sans-serif; font-size: 1rem;
+}
+.onboarding-content .form-actions { display: flex; justify-content: flex-end; margin-top: 30px; }
+.onboarding-content .nav-button {
+    padding: 12px 30px; background: #B99A6B; color: #1A1A1A; border: none;
+    border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem;
+}

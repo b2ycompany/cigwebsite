@@ -8,10 +8,6 @@ const storage = getStorage();
 
 // --- Funções de Gestão de Utilizadores ---
 
-/**
- * Busca todos os documentos da coleção 'users' no Firestore.
- * @returns {Promise<Array>} Uma lista de todos os utilizadores.
- */
 export const getAllUsers = async () => {
     try {
         const usersCol = collection(db, 'users');
@@ -20,16 +16,10 @@ export const getAllUsers = async () => {
         return userList;
     } catch (error) {
         console.error("Erro ao buscar utilizadores:", error);
-        return []; // Retorna um array vazio em caso de erro para não quebrar a aplicação
+        return [];
     }
 };
 
-/**
- * Atualiza o campo 'status' de um documento de utilizador específico.
- * @param {string} userId - O ID do utilizador a ser atualizado.
- * @param {string} newStatus - O novo status ('approved', 'rejected', etc.).
- * @returns {Promise<{success: boolean, error?: any}>}
- */
 export const updateUserStatus = async (userId, newStatus) => {
     const userDoc = doc(db, 'users', userId);
     try {
@@ -42,14 +32,39 @@ export const updateUserStatus = async (userId, newStatus) => {
     }
 };
 
+export const updateUserProfile = async (userId, data) => {
+    const userDoc = doc(db, 'users', userId);
+    try {
+        await updateDoc(userDoc, data, { merge: true }); // Usamos merge para não sobrescrever dados existentes
+        console.log(`Perfil do utilizador ${userId} atualizado.`);
+        return { success: true };
+    } catch (error) {
+        console.error("Erro ao atualizar perfil:", error);
+        return { success: false, error };
+    }
+};
+
+export const uploadUserDocument = async (userId, file) => {
+    if (!file) return { success: false, error: "Nenhum ficheiro selecionado." };
+    
+    const storageRef = ref(storage, `users/${userId}/documents/${file.name}`);
+    try {
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+
+        await updateUserProfile(userId, { documentUrl: downloadURL });
+
+        console.log(`Documento do utilizador ${userId} enviado com sucesso.`);
+        return { success: true, url: downloadURL };
+    } catch (error) {
+        console.error("Erro no upload do documento:", error);
+        return { success: false, error };
+    }
+};
+
 
 // --- Funções de Gestão de Campanhas ---
 
-/**
- * Faz o upload de um ficheiro de imagem para o Firebase Storage.
- * @param {File} imageFile - O ficheiro de imagem do input.
- * @returns {Promise<string>} A URL de download da imagem.
- */
 const uploadImage = async (imageFile) => {
     const storageRef = ref(storage, `campaigns/${Date.now()}_${imageFile.name}`);
     await uploadBytes(storageRef, imageFile);
@@ -57,12 +72,6 @@ const uploadImage = async (imageFile) => {
     return downloadURL;
 };
 
-/**
- * Cria um novo documento de campanha no Firestore com uma imagem.
- * @param {object} campaignData - Os dados da campanha (ex: { title, description }).
- * @param {File} imageFile - O ficheiro de imagem para a campanha.
- * @returns {Promise<{success: boolean, error?: any}>}
- */
 export const createCampaign = async (campaignData, imageFile) => {
     try {
         const imageUrl = await uploadImage(imageFile);
@@ -79,10 +88,6 @@ export const createCampaign = async (campaignData, imageFile) => {
     }
 };
 
-/**
- * Busca todas as campanhas da coleção 'campaigns' no Firestore.
- * @returns {Promise<Array>} Uma lista de todas as campanhas.
- */
 export const getCampaigns = async () => {
     try {
         const campaignsCol = collection(db, 'campaigns');

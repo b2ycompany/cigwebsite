@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Componentes Principais
+// Componentes
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader/Preloader';
 import ContactFooter from './components/ContactFooter/ContactFooter';
@@ -13,7 +13,7 @@ import CustomCursor from './components/CustomCursor/CustomCursor';
 import AdminRoute from './components/AdminRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Páginas da Aplicação
+// Páginas
 import HomePage from './pages/HomePage';
 import OpportunitiesPage from './pages/OpportunitiesPage';
 import ContactPage from './pages/ContactPage';
@@ -22,7 +22,12 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AffiliateDashboard from './pages/AffiliateDashboard';
 
-// Estilos Globais
+// Páginas de Onboarding
+import OnboardingLayout from './pages/OnboardingLayout';
+import PersonalStep from './pages/PersonalStep';
+import AddressStep from './pages/AddressStep';
+import DocumentsStep from './pages/DocumentsStep';
+
 import './App.css';
 
 function App() {
@@ -45,33 +50,24 @@ function App() {
               <Navbar />
               <main className="main-content">
                 <Routes>
-                  {/* === Rotas Públicas === */}
+                  {/* Rotas Públicas */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/oportunidades" element={<OpportunitiesPage />} />
                   <Route path="/contacto" element={<ContactPage />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/login" element={<LoginPage />} />
 
-                  {/* === Rotas Protegidas === */}
-                  {/* Rota do Administrador */}
-                  <Route 
-                    path="/admin" 
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    } 
-                  />
-                  
-                  {/* Rota do Afiliado */}
-                  <Route 
-                    path="/dashboard" 
-                    element={
-                      <ProtectedRoute>
-                        <AffiliateDashboard />
-                      </ProtectedRoute>
-                    } 
-                  />
+                  {/* Rotas Protegidas */}
+                  <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+                  <Route path="/dashboard" element={<ProtectedRoute><AffiliateDashboard /></ProtectedRoute>} />
+
+                  {/* Rotas de Onboarding Aninhadas */}
+                  <Route path="/onboarding" element={<ProtectedRoute><OnboardingLayout /></ProtectedRoute>}>
+                    <Route path="personal" element={<PersonalStep />} />
+                    <Route path="address" element={<AddressStep />} />
+                    <Route path="documents" element={<DocumentsStep />} />
+                  </Route>
+
                 </Routes>
               </main>
               <ContactFooter />
