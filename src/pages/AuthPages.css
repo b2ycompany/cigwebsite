@@ -55,3 +55,17 @@
     margin-top: 15px;
     font-size: 0.9rem;
 }
+/* Adicionar ao final de AuthPages.css */
+.status-pending, .status-approved {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+}
+.status-pending {
+    background-color: #372c1a;
+    border: 1px solid #B99A6B;
+}
+.status-approved {
+    background-color: #1a372a;
+    border: 1px solid #34d399;
+}

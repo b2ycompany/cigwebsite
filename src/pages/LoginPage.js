@@ -14,9 +14,14 @@ const LoginPage = () => {
         e.preventDefault();
         setError('');
         const result = await signInUser(email, password);
+        
         if (result.success) {
-            // No próximo passo, redirecionaremos para o painel correto (afiliado ou admin)
-            navigate('/'); // Por agora, volta para a home
+            // LÓGICA DE REDIRECIONAMENTO
+            if (result.userData.role === 'admin') {
+                navigate('/admin'); // Redireciona admins para /admin
+            } else {
+                navigate('/dashboard'); // Redireciona outros utilizadores para /dashboard
+            }
         } else {
             setError('E-mail ou palavra-passe inválidos.');
         }

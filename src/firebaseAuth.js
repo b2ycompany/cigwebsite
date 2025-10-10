@@ -5,56 +5,63 @@ import {
     signInWithEmailAndPassword, 
     signOut 
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from './firebaseConfig'; // A nossa configuração do Firestore
+import { doc, getDoc, setDoc } from "firebase/firestore"; // Importe o getDoc
+import { db } from './firebaseConfig';
 
 const auth = getAuth();
 
-// Função para registar um novo afiliado
 export const signUpAffiliate = async (name, email, password) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        // Após criar o utilizador na autenticação, guarda os dados adicionais no Firestore
         await setDoc(doc(db, "users", user.uid), {
             uid: user.uid,
             name: name,
             email: email,
-            role: 'affiliate', // Papel padrão
-            status: 'pending', // Estado inicial pendente de aprovação
+            role: 'affiliate',
+            status: 'pending',
             createdAt: new Date()
         });
-        
         console.log("Afiliado registado com sucesso!", user.uid);
         return { success: true, user };
-
     } catch (error) {
-        console.error("Erro no registo:", error.message);
+        console.error("Erro no registo:", error);
         return { success: false, error: error.message };
     }
 };
 
-// Função para fazer login
+// FUNÇÃO ATUALIZADA
 export const signInUser = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Login bem-sucedido!", userCredential.user.uid);
-        return { success: true, user: userCredential.user };
+        const user = userCredential.user;
+
+        // Após o login, busca o documento do utilizador no Firestore
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log("Login bem-sucedido!", user.uid, "Função:", userData.role);
+            // Retorna o utilizador e os seus dados, incluindo a função (role)
+            return { success: true, user: user, userData: userData };
+        } else {
+            // Caso raro onde o utilizador existe na autenticação mas não no Firestore
+            throw new Error("Perfil do utilizador não encontrado.");
+        }
     } catch (error) {
-        console.error("Erro no login:", error.message);
+        console.error("Erro no login:", error);
         return { success: false, error: error.message };
     }
 };
 
-// Função para fazer logout
 export const signOutUser = async () => {
     try {
         await signOut(auth);
         console.log("Logout bem-sucedido!");
         return { success: true };
     } catch (error) {
-        console.error("Erro no logout:", error.message);
+        console.error("Erro no logout:", error);
         return { success: false, error: error.message };
     }
 };
