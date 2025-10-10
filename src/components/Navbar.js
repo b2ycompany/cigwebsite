@@ -1,4 +1,4 @@
-// src/components/Navbar.js
+// src/components/Navbar/Navbar.js
 
 import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,16 +7,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
-import { useAuth } from '../hooks/useAuth';
-import { signOutUser } from '../firebaseAuth';
-import logoImage from '../assets/logo.webp';
+import { useAuth } from '../../hooks/useAuth';
+import { signOutUser } from '../../firebaseAuth';
+import logoImage from '../../assets/logo.png'; // Caminho e extensão corrigidos
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navbarRef = useRef(null);
-    const { user, userRole } = useAuth(); // Usamos userRole para o link do painel
+    const { user, userRole } = useAuth();
     const navigate = useNavigate();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -25,23 +25,20 @@ const Navbar = () => {
     const handleLogout = async () => {
         closeMobileMenu();
         await signOutUser();
-        navigate('/'); // Redireciona para a home após o logout
+        navigate('/');
     };
 
-    // Efeito para bloquear o scroll do corpo da página quando o menu móvel está aberto
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
         }
-        // Função de limpeza para garantir que o scroll volte ao normal
         return () => {
             document.body.style.overflow = 'auto';
         };
     }, [isMenuOpen]);
 
-    // Efeito para as animações de scroll do GSAP
     useLayoutEffect(() => {
         const navEl = navbarRef.current;
         
@@ -64,7 +61,6 @@ const Navbar = () => {
 
         console.log('Navbar adaptativa inicializada.');
 
-        // Função de limpeza para as animações GSAP
         return () => {
             st.kill();
             st2.forEach(trigger => trigger.kill());
@@ -92,11 +88,9 @@ const Navbar = () => {
                         <Link to="/oportunidades" className="nav-links" onClick={closeMobileMenu}>Projetos</Link>
                     </li>
                     
-                    {/* LÓGICA CONDICIONAL: Mostra links diferentes se o utilizador está logado ou não */}
                     {user ? (
                         <>
                             <li className="nav-item">
-                                {/* O link para o painel agora verifica a função do utilizador */}
                                 <Link to={userRole === 'admin' ? '/admin' : '/dashboard'} className="nav-links" onClick={closeMobileMenu}>Meu Painel</Link>
                             </li>
                             <li className="nav-item-mobile-button">

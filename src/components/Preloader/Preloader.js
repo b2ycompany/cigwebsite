@@ -1,11 +1,12 @@
 // src/components/Preloader/Preloader.js
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import './Preloader.css';
 import splashVideo from '../../assets/splash-video.mp4';
 
-// Importamos a imagem do logótipo também aqui
-import logoImage from '../../assets/logo.webp';
+// Caminho e extensão corrigidos
+import logoImage from '../../assets/logo.png';
 
 const loadingPhases = [
     { start: 0, text: "Analisando Oportunidades..." },
@@ -46,7 +47,6 @@ const Preloader = ({ onLoaded }) => {
             <video src={splashVideo} autoPlay loop muted playsInline className="preloader-video-bg" />
             <div className="preloader-overlay" />
             <div className="preloader-content">
-                {/* O logo em texto foi substituído pela imagem */}
                 <motion.div
                     className="preloader-logo-image"
                     initial={{ opacity: 0 }}
