@@ -1,58 +1,89 @@
 // src/components/Navbar.js
 
-import React, { useState, useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaBars, FaTimes } from 'react-icons/fa'; // Ícones para o menu
+import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
+import { useAuth } from '../hooks/useAuth';
+import { signOutUser } from '../firebaseAuth';
 import logoImage from '../assets/logo.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
-    // NOVO: Estado para controlar a abertura do menu móvel
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navbarRef = useRef(null);
+    const { user, userRole } = useAuth(); // Usamos userRole para o link do painel
+    const navigate = useNavigate();
 
-    // Funções para controlar o menu
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMobileMenu = () => setIsMenuOpen(false);
 
+    const handleLogout = async () => {
+        closeMobileMenu();
+        await signOutUser();
+        navigate('/'); // Redireciona para a home após o logout
+    };
+
+    // Efeito para bloquear o scroll do corpo da página quando o menu móvel está aberto
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        // Função de limpeza para garantir que o scroll volte ao normal
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isMenuOpen]);
+
+    // Efeito para as animações de scroll do GSAP
     useLayoutEffect(() => {
         const navEl = navbarRef.current;
-        // ... (a lógica do GSAP/ScrollTrigger permanece a mesma)
-        ScrollTrigger.create({
+        
+        const st = ScrollTrigger.create({
             start: 'top -80',
             end: 99999,
             toggleClass: { className: 'navbar--scrolled', targets: navEl }
         });
+
         const lightSections = gsap.utils.toArray('[data-theme="light"]');
-        lightSections.forEach(section => {
-            ScrollTrigger.create({
+        
+        const st2 = lightSections.map(section => {
+            return ScrollTrigger.create({
                 trigger: section,
                 start: "top 80px",
                 end: "bottom 80px",
                 toggleClass: { className: 'navbar--light-theme', targets: navEl }
             });
         });
+
         console.log('Navbar adaptativa inicializada.');
+
+        // Função de limpeza para as animações GSAP
+        return () => {
+            st.kill();
+            st2.forEach(trigger => trigger.kill());
+        };
     }, []);
 
+    const navbarClasses = `navbar ${isMenuOpen ? 'navbar--menu-open' : ''}`;
+
     return (
-        <nav className="navbar" ref={navbarRef}>
+        <nav className={navbarClasses} ref={navbarRef}>
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
                     <img src={logoImage} alt="Logótipo da Construction Investment Group" />
                 </Link>
 
-                {/* NOVO: Ícone do menu que só aparece em ecrãs pequenos */}
-                <div className="menu-icon" onClick={toggleMenu}>
+                <button className="menu-icon" onClick={toggleMenu} aria-label="Menu">
                     {isMenuOpen ? <FaTimes /> : <FaBars />}
-                </div>
+                </button>
 
-                {/* A classe 'active' será adicionada/removida com base no estado */}
                 <ul className={isMenuOpen ? 'nav-menu active' : 'nav-menu'}>
                     <li className="nav-item">
                         <Link to="/" className="nav-links" onClick={closeMobileMenu}>Início</Link>
@@ -60,13 +91,28 @@ const Navbar = () => {
                     <li className="nav-item">
                         <Link to="/oportunidades" className="nav-links" onClick={closeMobileMenu}>Projetos</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link to="/login" className="nav-links" onClick={closeMobileMenu}>Login</Link>
-                    </li>
-                    {/* O botão "Seja Parceiro" agora é um item de lista para melhor responsividade */}
-                    <li className="nav-item-mobile-button">
-                        <Link to="/register" className="nav-links nav-link-button" onClick={closeMobileMenu}>Seja Parceiro</Link>
-                    </li>
+                    
+                    {/* LÓGICA CONDICIONAL: Mostra links diferentes se o utilizador está logado ou não */}
+                    {user ? (
+                        <>
+                            <li className="nav-item">
+                                {/* O link para o painel agora verifica a função do utilizador */}
+                                <Link to={userRole === 'admin' ? '/admin' : '/dashboard'} className="nav-links" onClick={closeMobileMenu}>Meu Painel</Link>
+                            </li>
+                            <li className="nav-item-mobile-button">
+                                <button className="nav-links nav-link-button" onClick={handleLogout}>Sair</button>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li className="nav-item">
+                                <Link to="/login" className="nav-links" onClick={closeMobileMenu}>Login</Link>
+                            </li>
+                            <li className="nav-item-mobile-button">
+                                <Link to="/register" className="nav-links nav-link-button" onClick={closeMobileMenu}>Seja Parceiro</Link>
+                            </li>
+                        </>
+                    )}
                 </ul>
             </div>
         </nav>
