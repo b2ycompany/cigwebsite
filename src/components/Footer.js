@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <p>CIG - Construction Investment Group &copy; {currentYear}</p>
+        <p>Lion - Investment Broker &copy; {currentYear}</p>
         <p>Todos os direitos reservados.</p>
       </div>
     </footer>

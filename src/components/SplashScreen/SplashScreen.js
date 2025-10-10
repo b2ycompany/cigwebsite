@@ -24,7 +24,7 @@ const SplashScreen = () => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1.5, delay: 1.5 }} // Aparece 1s depois da sigla
                 >
-                    CONSTRUCTION INVESTMENT GROUP
+                    LION INVESTMENT BROKER
                 </motion.div>
             </div>
         </div>

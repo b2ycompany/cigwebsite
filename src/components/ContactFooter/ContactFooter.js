@@ -9,7 +9,7 @@ const ContactFooter = () => {
             <div className="footer-grid">
                 <div className="footer-column brand-column">
                     <h3 className="footer-logo">CIG</h3>
-                    <p>Construction Investment Group</p>
+                    <p>Lion - Investment Broker</p>
                     <div className="social-icons">
                         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /></a>
                         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
@@ -45,7 +45,7 @@ const ContactFooter = () => {
                 </iframe>
             </div>
             <div className="footer-bottom">
-                <p>© {new Date().getFullYear()} Construction Investment Group. Todos os direitos reservados.</p>
+                <p>© {new Date().getFullYear()} Lion Investment Broker Todos os direitos reservados.</p>
             </div>
         </footer>
     );
