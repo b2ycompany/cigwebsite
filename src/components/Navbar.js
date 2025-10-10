@@ -1,5 +1,4 @@
 // src/components/Navbar.js
-
 import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -9,8 +8,7 @@ import './Navbar.css';
 
 import { useAuth } from '../hooks/useAuth';
 import { signOutUser } from '../firebaseAuth';
-// ATUALIZADO: Importar o novo logótipo transparente
-import logoImage from '../assets/lion-broker-logo-transparent.png'; 
+import logoImage from '../assets/logo.png'; // Usando o novo logo.png
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,30 +40,13 @@ const Navbar = () => {
 
     useLayoutEffect(() => {
         const navEl = navbarRef.current;
-        
-        const st = ScrollTrigger.create({
+        // Lógica simplificada: apenas adiciona a classe 'scrolled' após o scroll
+        ScrollTrigger.create({
             start: 'top -80',
             end: 99999,
             toggleClass: { className: 'navbar--scrolled', targets: navEl }
         });
-
-        const lightSections = gsap.utils.toArray('[data-theme="light"]');
-        
-        const st2 = lightSections.map(section => {
-            return ScrollTrigger.create({
-                trigger: section,
-                start: "top 80px",
-                end: "bottom 80px",
-                toggleClass: { className: 'navbar--light-theme', targets: navEl }
-            });
-        });
-
         console.log('Navbar adaptativa inicializada.');
-
-        return () => {
-            st.kill();
-            st2.forEach(trigger => trigger.kill());
-        };
     }, []);
 
     const navbarClasses = `navbar ${isMenuOpen ? 'navbar--menu-open' : ''}`;
@@ -74,7 +55,7 @@ const Navbar = () => {
         <nav className={navbarClasses} ref={navbarRef}>
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                    <img src={logoImage} alt="Logótipo da Lion Broker Investment" />
+                    <img src={logoImage} alt="Logótipo da CIG" />
                 </Link>
 
                 <button className="menu-icon" onClick={toggleMenu} aria-label="Menu">
@@ -82,30 +63,18 @@ const Navbar = () => {
                 </button>
 
                 <ul className={isMenuOpen ? 'nav-menu active' : 'nav-menu'}>
-                    <li className="nav-item">
-                        <Link to="/" className="nav-links" onClick={closeMobileMenu}>Início</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/oportunidades" className="nav-links" onClick={closeMobileMenu}>Projetos</Link>
-                    </li>
+                    <li className="nav-item"><Link to="/" className="nav-links" onClick={closeMobileMenu}>Início</Link></li>
+                    <li className="nav-item"><Link to="/oportunidades" className="nav-links" onClick={closeMobileMenu}>Projetos</Link></li>
                     
                     {user ? (
                         <>
-                            <li className="nav-item">
-                                <Link to={userRole === 'admin' ? '/admin' : '/dashboard'} className="nav-links" onClick={closeMobileMenu}>Meu Painel</Link>
-                            </li>
-                            <li className="nav-item-mobile-button">
-                                <button className="nav-links nav-link-button" onClick={handleLogout}>Sair</button>
-                            </li>
+                            <li className="nav-item"><Link to={userRole === 'admin' ? '/admin' : '/dashboard'} className="nav-links" onClick={closeMobileMenu}>Meu Painel</Link></li>
+                            <li className="nav-item-mobile-button"><button className="nav-links nav-link-button" onClick={handleLogout}>Sair</button></li>
                         </>
                     ) : (
                         <>
-                            <li className="nav-item">
-                                <Link to="/login" className="nav-links" onClick={closeMobileMenu}>Login</Link>
-                            </li>
-                            <li className="nav-item-mobile-button">
-                                <Link to="/register" className="nav-links nav-link-button" onClick={closeMobileMenu}>Seja Parceiro</Link>
-                            </li>
+                            <li className="nav-item"><Link to="/login" className="nav-links" onClick={closeMobileMenu}>Login</Link></li>
+                            <li className="nav-item-mobile-button"><Link to="/register" className="nav-links nav-link-button" onClick={closeMobileMenu}>Seja Parceiro</Link></li>
                         </>
                     )}
                 </ul>
@@ -113,5 +82,4 @@ const Navbar = () => {
         </nav>
     );
 };
-
 export default Navbar;

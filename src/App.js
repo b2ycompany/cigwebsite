@@ -9,7 +9,6 @@ import Navbar from './components/Navbar';
 import Preloader from './components/Preloader/Preloader';
 import ContactFooter from './components/ContactFooter/ContactFooter';
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
-import CustomCursor from './components/CustomCursor/CustomCursor';
 import AdminRoute from './components/AdminRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -28,6 +27,7 @@ import PersonalStep from './pages/PersonalStep';
 import AddressStep from './pages/AddressStep';
 import DocumentsStep from './pages/DocumentsStep';
 
+// Estilos Globais
 import './App.css';
 
 function App() {
@@ -39,7 +39,8 @@ function App() {
 
   return (
     <>
-      <CustomCursor />
+      {/* O CustomCursor foi removido daqui */}
+      
       <AnimatePresence>
         {loading && <Preloader onLoaded={() => setLoading(false)} />}
       </AnimatePresence>
